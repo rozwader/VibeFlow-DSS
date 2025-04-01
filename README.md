@@ -1,6 +1,6 @@
 Instrukcja jak obłusujemy się z Gitem
 
-zanim zacznienie cokolwiek robic róbcie `git pull`
+zanim zaczniecie cokolwiek robic róbcie `git pull`
 
 jak zrobicie co mieliscie zrobic, pod ŻADNYM POZOREM NIE WRZUCACIE TEGO NA MAIN
 
