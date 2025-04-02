@@ -1,7 +1,17 @@
+"use client"
+
 import HeaderComponent from "@/components/headerComponent";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Home() {
+
+  useEffect(() => {
+    if(localStorage.getItem("TOKEN") != null){
+      // uzytkownik jest juz zalogowany
+    }
+  }, [])
+
   return (
     <>
       <HeaderComponent title="Vibe Flow"/>

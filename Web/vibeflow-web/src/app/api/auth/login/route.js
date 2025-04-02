@@ -37,7 +37,8 @@ export const POST = async (req) => {
             return response("User with this Username or Password doesn't exist", 404);
         }
 
-        const token = jwt.sign({username: username}, process.env.JWT_SECRET, {
+        const issueDate = new Date.now();
+        const token = jwt.sign({username: username, iat: issueDate, }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRES_IN,
         });
 
