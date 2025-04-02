@@ -4,6 +4,7 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 
 const comparePasswords = (clearPassword, hashedPassword) => {
+    console.log(hashedPassword);
     return bcrypt.compare(clearPassword, hashedPassword).then((res) => {
         return res;
     })
@@ -13,6 +14,12 @@ const response = (message, status) => {
     return NextResponse.json({
         message: message,
     }, {status: status})
+}
+
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
 }
 
 export const POST = async (req) => {
@@ -31,16 +38,16 @@ export const POST = async (req) => {
         }
 
         const hashedPassword = dbResponse[0][0];
-        const passwordValidation = comparePasswords(password, hashedPassword);
+        const passwordValidation = comparePasswords(password, hashedPassword.password);
 
         if(!passwordValidation){
             return response("User with this Username or Password doesn't exist", 404);
         }
 
-        const issueDate = new Date.now();
-        const token = jwt.sign({username: username, iat: issueDate, }, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_IN,
-        });
+        const issueDate = new Date().getTime();
+        const expirationDate = new Date().addDays(30).getTime();
+
+        const token = jwt.sign({username: username, iat: issueDate, exp: expirationDate }, process.env.JWT_SECRET);
 
         return response(token, 200);
     }catch(err){
