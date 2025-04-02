@@ -10,9 +10,33 @@ import { BsArrowUpRight } from "react-icons/bs";
 import vibeflowlogo from "../../public/vibeflowlogo.png";
 
 export default function Home() {
+
+  const checkToken = async () => {
+    const token = localStorage.getItem("TOKEN");
+    try{
+      const request = await fetch("/api/auth/tokencheck", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({token})
+      });
+
+      const data = await request.json();
+      console.log(data);
+
+      if(!request.ok){
+        // token wygasł i uzytkownik musi sie zalogowac jeszcze raz
+      }else{
+        // token nadal jest prawidlowy, mozna od razu zalogowac i przeniesc do aplikacji
+      }
+
+    }catch(err){
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
-    if (localStorage.getItem("TOKEN") != null) {
-      // uzytkownik jest juz zalogowany
+    if(localStorage.getItem("TOKEN") != null){
+      checkToken();
     }
   }, []);
 
