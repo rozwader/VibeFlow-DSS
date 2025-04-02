@@ -1,7 +1,11 @@
 "use client"
 
+import { useRouter } from 'next/navigation';
+
 const loginPage = () => {
-    
+  
+    const router = useRouter();
+
     const handleSubmit = async (event) => {
         event.preventDefault();
     
@@ -17,8 +21,9 @@ const loginPage = () => {
     
         if(request.ok){
             const data = await request.json();
-            localStorage.setItem("TOKEN", data.message)
-            // zaloguj uzytkownika
+            localStorage.setItem("TOKEN", data.message);
+            localStorage.setItem("User", username);
+            router.push("/music/");
         }else{
           const message = await request.json();
           console.log(message);
