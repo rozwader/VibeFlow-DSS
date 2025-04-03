@@ -8,6 +8,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import vibeflowlogo from "../../public/vibeflowlogo.png";
 import { useRouter } from "next/navigation";
 import StartButtonComponent from "@/components/StartButtonComponent";
+import LoginButtonComponent from "@/components/LoginButtonComponent";
 
 export default function Home() {
   const router = useRouter();
@@ -58,13 +59,12 @@ export default function Home() {
           <BsFillPlayCircleFill className="mr-1" />
           <span>Listen now</span>
         </button>
-        <Link
-          href={`/login/`}
-          className="flex items-center bg-black rounded-xl text-white p-2 pl-5 pr-5 border border-black hover:bg-white hover:text-black transition-colors"
-        >
-          <BsFillPersonFill className="mr-1" />
-          <span>Sign in</span>
-        </Link>
+
+        {localStorage.getItem("TOKEN") != null ? (
+          <span className="flex items-center bg-black rounded-xl text-white p-2 pl-5 pr-5 border border-black hover:bg-white hover:text-black transition-colors">Hello, {localStorage.getItem("User")}</span>
+        ) : (
+          <LoginButtonComponent />
+        )}
       </div>
       <div className="flex flex-col items-center justify-center min-h-screen">
         <Image src={vibeflowlogo} alt="logo" className="w-128 h-128"></Image>

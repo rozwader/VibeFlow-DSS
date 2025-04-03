@@ -48,7 +48,7 @@ const musicPage = () => {
         <>
             <HeaderComponent title="skibidi"/>
             <h2>Tutaj ma być cała aplikacji itp</h2>
-            <Link className="text-red-500" href='/' onClick={handleLogout}>Powrót</Link>
+            <Link className="text-red-500" href='/' onClick={handleLogout}>Wyloguj</Link>
         </>
         
     );
