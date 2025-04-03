@@ -61,7 +61,9 @@ export default function Home() {
         </button>
 
         {localStorage.getItem("TOKEN") != null ? (
-          <span className="flex items-center bg-black rounded-xl text-white p-2 pl-5 pr-5 border border-black hover:bg-white hover:text-black transition-colors">Hello, {localStorage.getItem("User")}</span>
+          <span className="flex items-center bg-black rounded-xl text-white p-2 pl-5 pr-5 border border-black hover:bg-white hover:text-black transition-colors">
+            Hello, {localStorage.getItem("User")}
+          </span>
         ) : (
           <LoginButtonComponent />
         )}
