@@ -97,7 +97,7 @@ const registerPage = () => {
               </div>
             </div>
             <button
-              className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition-colors"
+              className="w-full bg-black text-white py-2 rounded border border-black hover:bg-white hover:text-black transition-colors cursor-pointer"
               type="submit"
             >
               Sign in
