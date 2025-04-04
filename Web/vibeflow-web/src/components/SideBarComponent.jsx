@@ -6,18 +6,20 @@ import Link from "next/link";
 import SideBarLinkComponent from "./SideBarLinkComponent";
 import SideBarButtonComponent from "./SideBarButtonComponent";
 import { BsFillHouseDoorFill, BsRecordCircle, BsFillHeartFill, BsMusicNoteList, BsFolderPlus, BsBoxArrowRight, BsGearFill } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SideBarComponent = () => {
   const [currentPage, setCurrentPage] = useState("");
 
+
+  
   const handleLogout = () => {
     localStorage.removeItem("TOKEN");
     localStorage.removeItem("User");
   };
 
   return (
-    <div className="w-64 md:w-56 h-screen bg-white shadow-md border-r flex flex-col p-4">
+    <div className="w-1/1 md:w-1/1 h-screen bg-white shadow-md border-r flex flex-col p-4">
       <div className="flex items-center justify-center mb-6">
         <Image src={vibeflowlogo} alt="VibeFlow Logo" className="w-36" />
       </div>
