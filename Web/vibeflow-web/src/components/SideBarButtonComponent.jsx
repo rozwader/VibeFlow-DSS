@@ -1,11 +1,10 @@
+
 const SideBarButtonComponent = (props) => {
   return (
     <button
       type="button"
-      className="flex items-start justify-start gap-1 scale-150 cursor-pointer "
-      onClick={() => {
-        props.action(props.to);
-      }}
+      className="flex items-center gap-2 text-gray-700 hover:bg-gray-200 rounded-lg py-2 px-4 w-full text-left"
+      onClick={() => props.action(props.to)}
     >
       {props.icon}
       <span>{props.text}</span>
