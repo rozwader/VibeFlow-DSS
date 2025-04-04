@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SideBarComponent from "@/components/SideBarComponent";
+import AppWindowComponent from "@/components/AppWindowComponent";
+import MusicManagerComponent from "@/components/MusicManagerComponent";
+import SearchComponent from "@/components/SearchComponent";
 
 const musicPage = () => {
   const router = useRouter();
@@ -44,11 +47,23 @@ const musicPage = () => {
   };
 
   return (
-    <>
-      <div className="flex items-center justify-start">
-        <SideBarComponent />
-      </div>
-    </>
+    <div className="w-screen h-screen flex flex-row items-center justify-start">
+        <div className="w-1/8">
+            <SideBarComponent />
+        </div>
+        
+        <div className="w-7/8 h-screen flex flex-col">
+            <div className="w-1/1 h-4/5 border relative">
+                <div className="absolute top-[10px] left-[10px]">
+                    <SearchComponent />
+                </div>
+                <AppWindowComponent />
+            </div>
+            <div className="w-1/1 h-1/5 border bg-[#252525]">
+                <MusicManagerComponent />
+            </div>
+        </div>
+    </div>
   );
 };
 
