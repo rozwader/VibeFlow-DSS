@@ -8,7 +8,6 @@ import SideBarComponent from "@/components/SideBarComponent";
 import AppWindowComponent from "@/components/AppWindowComponent";
 import MusicManagerComponent from "@/components/MusicManagerComponent";
 import SearchComponent from "@/components/SearchComponent";
-import staticData from "@/lib/staticData";
 
 const musicPage = () => {
   const router = useRouter();
@@ -49,13 +48,13 @@ const musicPage = () => {
         </div>
         
         <div className="w-7/8 h-screen flex flex-col">
-            <div className="w-1/1 h-4/5 border relative">
+            <div className="w-1/1 h-4/5 relative">
                 <div className="absolute top-[10px] left-[10px]">
                     <SearchComponent />
                 </div>
                 <AppWindowComponent />
             </div>
-            <div className="w-1/1 h-1/5 border bg-[#252525]">
+            <div className="w-1/1 h-1/5 bg-[#252525]">
                 <MusicManagerComponent />
             </div>
         </div>
