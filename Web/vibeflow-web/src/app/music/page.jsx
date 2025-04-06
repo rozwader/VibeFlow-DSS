@@ -8,6 +8,7 @@ import SideBarComponent from "@/components/SideBarComponent";
 import AppWindowComponent from "@/components/AppWindowComponent";
 import MusicManagerComponent from "@/components/MusicManagerComponent";
 import SearchComponent from "@/components/SearchComponent";
+import staticData from "@/lib/staticData";
 
 const musicPage = () => {
   const router = useRouter();
@@ -40,11 +41,6 @@ const musicPage = () => {
       router.push("/");
     }
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("TOKEN");
-    localStorage.removeItem("User");
-  };
 
   return (
     <div className="w-screen h-screen flex flex-row items-center justify-start">
