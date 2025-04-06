@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SideBarLinkComponent from "./SideBarLinkComponent";
 import SideBarButtonComponent from "./SideBarButtonComponent";
-import { BsFillHouseDoorFill, BsRecordCircle, BsFillHeartFill, BsMusicNoteList, BsFolderPlus, BsBoxArrowRight, BsGearFill } from "react-icons/bs";
+import { BsFillHouseDoorFill, BsRecordCircle, BsFillHeartFill, BsMusicNoteList, BsFolderPlus, BsBoxArrowRight, BsGearFill, BsGear } from "react-icons/bs";
 import { useEffect, useState } from "react";
 
 const SideBarComponent = () => {
@@ -18,12 +18,44 @@ const SideBarComponent = () => {
     localStorage.removeItem("User");
   };
 
+  const getLoginToSpotify = async () => {
+    try{
+      const request = await fetch("/api/s_auth/login", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      })
+
+      const data = await request.json();
+      console.log(data.message);
+
+      return data.message
+    }catch(err){
+      console.log(`Couldnt Log In To Spotify | ${err}`);
+    }
+  }
+
+  const generateLink = async () => {
+    const spotifyLink = await getLoginToSpotify();
+
+    console.log(spotifyLink)
+
+    const newLink = document.createElement("a");
+    newLink.href = spotifyLink;
+    newLink.innerText = "Log In To Spotify";
+
+    document.querySelector("#navbar").appendChild(newLink);
+  }
+
+  useEffect(() => {
+    generateLink();
+  }, [])
+
   return (
     <div className="w-1/1 md:w-1/1 h-screen bg-white shadow-md border-r flex flex-col p-4">
       <div className="flex items-center justify-center mb-6">
         <Image src={vibeflowlogo} alt="VibeFlow Logo" className="w-36" />
       </div>
-      <nav className="space-y-1">
+      <nav className="space-y-1" id="navbar">
         <span className="text-gray-600 text-sm font-semibold">Menu</span>
         <SideBarLinkComponent 
           icon={<BsFillHouseDoorFill />} 
