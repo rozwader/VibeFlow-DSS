@@ -6,6 +6,8 @@ const response = (message, status) => {
     }, {status: status})
 }
 
+let token = ""
+
 export const GET = async (req) => {
     const code = req.url.split("code=")[1]
 
@@ -35,18 +37,23 @@ export const GET = async (req) => {
 
         if(request.ok){
             const data = await request.json();
-            const access_token = data.access_token;
-            console.log(access_token);
-
-            // trzeba znalezc sposob jak zapisac token po client-side
-
+            token = data.access_token;
+            
             return NextResponse.redirect(new URL('/music/', req.url))
         }else{
             const data = await request.json();
-            console.log(data);
+
             return NextResponse.redirect(new URL('/music/', req.url))
         }
     }catch(err){
         return NextResponse.redirect(new URL('/music/', req.url))
+    }
+}
+
+export const POST = async () => {
+    if(token != ""){
+        return response(token, 200);
+    }else{
+        return response(null, 404)
     }
 }

@@ -14,12 +14,12 @@ const CurrentSongControllerComponent = () => {
         <BsFillSkipStartFill className="text-white w-12 h-12" />
         {isMusicPlaying ? (
           <BsFillPauseFill
-            className="text-white w-14 h-14"
+            className="text-white w-18 h-18"
             onClick={switchMusicPlaying}
           />
         ) : (
           <BsFillPlayFill
-            className="text-white w-14 h-14"
+            className="text-white w-18 h-18"
             onClick={switchMusicPlaying}
           />
         )}
