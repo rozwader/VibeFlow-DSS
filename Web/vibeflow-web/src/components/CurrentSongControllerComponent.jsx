@@ -5,25 +5,25 @@ import { BsFillPlayFill } from "react-icons/bs";
 import { BsFillPauseFill } from "react-icons/bs";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 
-const CurrentSongControllerComponent = () => {
+const CurrentSongControllerComponent = (props) => {
   const [isMusicPlaying, switchMusicPlaying] = useState(false);
 
   return (
     <>
       <div className="flex items-center justify-center mr-25">
-        <BsFillSkipStartFill className="text-white w-12 h-12" />
-        {isMusicPlaying ? (
+        <BsFillSkipStartFill className="text-white w-12 h-12" onClick={() => {props.entity.previousTrack()}} />
+        {!props.paused ? (
           <BsFillPauseFill
             className="text-white w-18 h-18"
-            onClick={switchMusicPlaying}
+            onClick={() => {props.entity.togglePlay()}}
           />
         ) : (
           <BsFillPlayFill
             className="text-white w-18 h-18"
-            onClick={switchMusicPlaying}
+            onClick={() => {props.entity.togglePlay()}}
           />
         )}
-        <BsFillSkipEndFill className="text-white w-12 h-12" />
+        <BsFillSkipEndFill className="text-white w-12 h-12" onClick={() => {props.entity.nextTrack()}} />
         <BsFillPlusCircleFill className="text-white w-9 h-9  ml-9" />
       </div>
     </>
