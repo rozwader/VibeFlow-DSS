@@ -3,14 +3,21 @@
 import vibeflowlogo from "../../public/vibeflowlogo.png";
 import Image from "next/image";
 import Link from "next/link";
-import SideBarLinkComponent from "./SideBarLinkComponent";
 import SideBarButtonComponent from "./SideBarButtonComponent";
-import { BsFillHouseDoorFill, BsRecordCircle, BsFillHeartFill, BsMusicNoteList, BsFolderPlus, BsBoxArrowRight, BsGearFill, BsGear } from "react-icons/bs";
+import {
+  BsFillHouseDoorFill,
+  BsRecordCircle,
+  BsFillHeartFill,
+  BsMusicNoteList,
+  BsFolderPlus,
+  BsBoxArrowRight,
+  BsGearFill,
+  BsGear,
+} from "react-icons/bs";
 import { useEffect, useState } from "react";
 import ConnectedConfComponent from "./ConnectedConfComponent";
 
 const SideBarComponent = (props) => {
-  
   const [sToken, setSToken] = useState("");
 
   const handleLogout = () => {
@@ -18,32 +25,32 @@ const SideBarComponent = (props) => {
   };
 
   const getLoginToSpotify = async () => {
-    try{
+    try {
       const request = await fetch("/api/s_auth/login", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      })
+      });
 
       const data = await request.json();
       console.log(data.message);
 
-      return data.message
-    }catch(err){
-      console.log(`Couldnt Log In To Spotify | ${err}`);
+      return data.message;
+    } catch (err) {
+      console.log(`Couldn't Log In To Spotify | ${err}`);
     }
-  }
+  };
 
   const retrieveSToken = async () => {
-    try{
+    try {
       const request = await fetch("/api/s_auth/callback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-      })
+      });
 
-      if(request.ok){
+      if (request.ok) {
         const data = await request.json();
-        
-        const currentTime = new Date().getTime() + (60*60*1000);
+
+        const currentTime = new Date().getTime() + 60 * 60 * 1000;
 
         localStorage.setItem("S_TOKEN", data.message.token);
         localStorage.setItem("S_TOKEN_EXPIRES_IN", currentTime);
@@ -51,20 +58,20 @@ const SideBarComponent = (props) => {
         setSToken(data.message.token);
         props.setConnected(true);
 
-        if(document.querySelector("#logSpot") != undefined){
+        if (document.querySelector("#logSpot") != undefined) {
           document.querySelector("#logSpot").remove();
         }
 
         return true;
-      }else{
+      } else {
         const data = await request.json();
-        console.log(data.message)
+        console.log(data.message);
         return false;
       }
-    }catch(err){
+    } catch (err) {
       console.log(`Couldn't retrieve Spotify Token | ${err}`);
     }
-  }
+  };
 
   const generateLink = async () => {
     const spotifyLink = await getLoginToSpotify();
@@ -73,45 +80,51 @@ const SideBarComponent = (props) => {
     newLink.href = spotifyLink;
     newLink.innerText = "Connect To Spotify";
     newLink.id = "logSpot";
-    newLink.className="text-xs bg-[#ff0000] rounded-xl p-2 text-white font-bold"
+    newLink.className =
+      "text-xs bg-[#ff0000] rounded-xl p-2 text-white font-bold";
 
-    if(document.querySelector("#logSpot") == undefined || document.querySelector("#logSpot") == null){
+    if (
+      document.querySelector("#logSpot") == undefined ||
+      document.querySelector("#logSpot") == null
+    ) {
       document.querySelector("#navbar").appendChild(newLink);
     }
-  }
+  };
 
   const manageRenderingSite = async () => {
-    if(localStorage.getItem("S_TOKEN") != null){
-      console.log("1")
-      const token_expiration_time = parseInt(localStorage.getItem("S_TOKEN_EXPIRES_IN"))
+    if (localStorage.getItem("S_TOKEN") != null) {
+      console.log("1");
+      const token_expiration_time = parseInt(
+        localStorage.getItem("S_TOKEN_EXPIRES_IN")
+      );
       const currentTime = new Date().getTime();
-      console.log(currentTime, token_expiration_time)
-      if(token_expiration_time < currentTime){
-        console.log(11)
+      console.log(currentTime, token_expiration_time);
+      if (token_expiration_time < currentTime) {
+        console.log(11);
         generateLink();
-      }else{
-        console.log(12)
+      } else {
+        console.log(12);
         setSToken(localStorage.getItem("S_TOKEN"));
-        props.setConnected(true)
+        props.setConnected(true);
       }
-    }else{
-      console.log(2)
+    } else {
+      console.log(2);
       const request = await retrieveSToken();
 
-      if(request == false){
-        console.log(21)
+      if (request == false) {
+        console.log(21);
         generateLink();
-      }else{
-        console.log(22)
+      } else {
+        console.log(22);
         setSToken(localStorage.getItem("S_TOKEN"));
-        props.setConnected(true)
+        props.setConnected(true);
       }
     }
-  }
+  };
 
   useEffect(() => {
     manageRenderingSite();
-  }, [])
+  }, []);
 
   return (
     <div className="w-1/1 md:w-1/1 h-screen bg-white shadow-md flex flex-col p-4">
@@ -120,42 +133,45 @@ const SideBarComponent = (props) => {
       </div>
       <nav className="space-y-1" id="navbar">
         <span className="text-gray-600 text-sm font-semibold">Menu</span>
-        <SideBarLinkComponent 
-          icon={<BsFillHouseDoorFill />} 
-          text="Home" 
-          to="/music/"
+        <SideBarButtonComponent
+          icon={<BsFillHouseDoorFill />}
+          text="Home"
+          action={props.setCurrentPage}
+          to="home"
         />
-        <SideBarButtonComponent 
-          icon={<BsRecordCircle />} 
-          text="Albums" 
-          action={props.setCurrentPage} 
-          to="albums" 
+        <SideBarButtonComponent
+          icon={<BsRecordCircle />}
+          text="Albums"
+          action={props.setCurrentPage}
+          to="albums"
         />
 
-        <span className="text-gray-600 text-sm font-semibold">Playlist and favorite</span>
-        <SideBarButtonComponent 
-          icon={<BsFillHeartFill />} 
-          text="Your favorites" 
-          action={props.setCurrentPage} 
-          to="favorites" 
+        <span className="text-gray-600 text-sm font-semibold">
+          Playlist and favorite
+        </span>
+        <SideBarButtonComponent
+          icon={<BsFillHeartFill />}
+          text="Your favorites"
+          action={props.setCurrentPage}
+          to="favorites"
         />
-        <SideBarButtonComponent 
-          icon={<BsMusicNoteList />} 
-          text="Your playlist" 
-          action={props.setCurrentPage} 
-          to="playlist" 
+        <SideBarButtonComponent
+          icon={<BsMusicNoteList />}
+          text="Your playlists"
+          action={props.setCurrentPage}
+          to="playlists"
         />
-        <SideBarButtonComponent 
-          icon={<BsFolderPlus />} 
-          text="Add playlist" 
-          action={props.setCurrentPage} 
-          to="addplaylist" 
+        <SideBarButtonComponent
+          icon={<BsFolderPlus />}
+          text="Add playlist"
+          action={props.setCurrentPage}
+          to="addplaylist"
         />
-        <SideBarButtonComponent 
-          icon={<BsFolderPlus />} 
-          text="Add song" 
-          action={props.setCurrentPage} 
-          to="addsong" 
+        <SideBarButtonComponent
+          icon={<BsFolderPlus />}
+          text="Add song"
+          action={props.setCurrentPage}
+          to="addsong"
         />
 
         <span className="text-gray-600 text-sm font-semibold">General</span>
@@ -167,13 +183,13 @@ const SideBarComponent = (props) => {
           <BsBoxArrowRight />
           <span>Log out</span>
         </Link>
-        <SideBarButtonComponent 
-          icon={<BsGearFill />} 
-          text="Settings" 
-          action={props.setCurrentPage} 
-          to="settings" 
+        <SideBarButtonComponent
+          icon={<BsGearFill />}
+          text="Settings"
+          action={props.setCurrentPage}
+          to="settings"
         />
-        {props.connected ? (<ConnectedConfComponent/>) : (null)}
+        {props.connected ? <ConnectedConfComponent /> : null}
       </nav>
     </div>
   );

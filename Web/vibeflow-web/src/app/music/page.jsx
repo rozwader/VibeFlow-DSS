@@ -6,7 +6,8 @@ import SideBarComponent from "@/components/SideBarComponent";
 import AppWindowComponent from "@/components/AppWindowComponent";
 import MusicManagerComponent from "@/components/MusicManagerComponent";
 import SearchComponent from "@/components/SearchComponent";
-import PlaylistWindowComponent from "@/components/appWindowComponents/PlaylistWindowComponent";
+import PlaylistsWindowComponent from "@/components/appWindowComponents/PlaylistsWindowComponent";
+import HomeWindowComponent from "@/components/appWindowComponents/HomeWindowComponent";
 
 const musicPage = () => {
   const router = useRouter();
@@ -17,18 +18,19 @@ const musicPage = () => {
   // settings, albums, favorites, playlist, addplaylist, addsong
 
   const pageComponents = {
-    "playlist": <PlaylistWindowComponent />
-  }
+    playlists: <PlaylistsWindowComponent />,
+    home: <HomeWindowComponent />,
+  };
 
   const [currentPage, setCurrentPage] = useState("");
 
   const returnPage = () => {
-    return pageComponents[currentPage]
-  }
+    return pageComponents[currentPage];
+  };
 
   useEffect(() => {
-    console.log(currentPage)
-  }, [currentPage])
+    console.log(currentPage);
+  }, [currentPage]);
 
   const checkToken = async () => {
     const token = localStorage.getItem("TOKEN");
@@ -58,54 +60,60 @@ const musicPage = () => {
       router.push("/");
     }
   }, []);
-  
 
   const [sliderValue, setSliderValue] = useState(50);
-  const [volume, setVolume] = useState(50)
+  const [volume, setVolume] = useState(50);
 
   const handleChange = (e) => {
     setSliderValue(Number(e.target.value));
-  }
+  };
   const changeVolume = () => {
     setTimeout(() => {
       setVolume(document.querySelector("#volumeSlider").value);
-    }, 50)
-  }
+    }, 50);
+  };
 
   return (
     <div className="w-screen h-screen flex flex-row items-center justify-start">
-        <div className="w-1/8">
-            <SideBarComponent setConnected={setIsConnected} connected={isConnected} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-        </div>
-        
-        <div className="w-7/8 h-screen flex flex-col">
-            <div className="w-1/1 h-4/5 relative">
-                <div className="absolute top-[10px] left-[10px]">
-                    <SearchComponent />
-                </div>
-                {/* {() => {switch(currentPage){
+      <div className="w-1/8">
+        <SideBarComponent
+          setConnected={setIsConnected}
+          connected={isConnected}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
+
+      <div className="w-7/8 h-screen flex flex-col">
+        <div className="w-1/1 h-4/5 relative">
+          <div className="absolute top-5 left-170">
+            <SearchComponent />
+          </div>
+          {/* {() => {switch(currentPage){
                   case "playlist":
                     return <PlaylistWindowComponent />;
                   default:
                     return <PlaylistWindowComponent />;
                 }}} */}
-                <AppWindowComponent currentPage={currentPage} />
-                <div className="absolute bottom-[10px] left-[10px]">
-                  <input type="range" id="volumeSlider"
-                  min="0"
-                  max="100"
-                  value={sliderValue}
-                  step="1"
-                  onChange={handleChange}
-                  onMouseUp={changeVolume}
-                  className="w-100 h-10 color-white"
-                  />
-                </div>
-            </div>
-            <div className="w-1/1 h-1/5 bg-[#252525]">
-                <MusicManagerComponent volume={volume} connected={isConnected} />
-            </div>
+          <AppWindowComponent currentPage={currentPage} />
+          <div className="absolute bottom-[10px] left-[10px]">
+            <input
+              type="range"
+              id="volumeSlider"
+              min="0"
+              max="100"
+              value={sliderValue}
+              step="1"
+              onChange={handleChange}
+              onMouseUp={changeVolume}
+              className="w-100 h-10 color-white"
+            />
+          </div>
         </div>
+        <div className="w-1/1 h-1/5 bg-[#252525]">
+          <MusicManagerComponent volume={volume} connected={isConnected} />
+        </div>
+      </div>
     </div>
   );
 };
