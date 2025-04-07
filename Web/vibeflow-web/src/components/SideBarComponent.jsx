@@ -45,7 +45,7 @@ const SideBarComponent = () => {
       if(request.ok){
         const data = await request.json();
         localStorage.setItem("S_TOKEN", data.message);
-        setSToken(data.message);
+        props.setConnected(true)
 
         document.querySelector("#logSpot").remove();
 
@@ -54,7 +54,7 @@ const SideBarComponent = () => {
         return false;
       }
     }catch(err){
-
+      console.log(`Couldn't retrieve Spotify Token | ${err}`);
     }
   }
 
@@ -80,6 +80,7 @@ const SideBarComponent = () => {
       }
     }else{
       setSToken(localStorage.getItem("S_TOKEN"));
+      props.setConnected(true)
     }
   }
 

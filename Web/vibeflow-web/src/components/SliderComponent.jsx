@@ -1,13 +1,12 @@
 import { useState } from "react";
 
-const SliderComponent = () => {
-  const [value, setValue] = useState(50);
+const SliderComponent = (props) => {
 
   const handleChange = (e) => {
     setValue(Number(e.target.value));
   };
 
-  return (
+  return ( // do zmiany jak api sie rozwinie
     <div className="w-3/7 mx-auto p-4 flex items-center justify-center">
       <input
         type="range"
@@ -27,7 +26,7 @@ const SliderComponent = () => {
           range-slider
         "
       />
-      <p className="ml-2 text-white text-center">{value}</p>
+      <p className="ml-2 text-white text-center">{props.time}</p>
     </div>
   );
 };
