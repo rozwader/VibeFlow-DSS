@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useEffect } from "react";
 import { BsFillPlayCircleFill } from "react-icons/bs";
-import { BsFillPersonFill } from "react-icons/bs";
 import vibeflowlogo from "../../public/vibeflowlogo.png";
 import { useRouter } from "next/navigation";
 import StartButtonComponent from "@/components/StartButtonComponent";
