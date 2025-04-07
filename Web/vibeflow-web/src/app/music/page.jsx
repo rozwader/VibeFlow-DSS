@@ -58,7 +58,7 @@ const musicPage = () => {
   return (
     <div className="w-screen h-screen flex flex-row items-center justify-start">
         <div className="w-1/8">
-            <SideBarComponent setConnected={setIsConnected} />
+            <SideBarComponent setConnected={setIsConnected} connected={isConnected} />
         </div>
         
         <div className="w-7/8 h-screen flex flex-col">

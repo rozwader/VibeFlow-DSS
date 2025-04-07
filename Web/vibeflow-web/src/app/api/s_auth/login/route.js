@@ -19,7 +19,16 @@ const generateRandomString = (len) => {
 export const GET = () => {
     const scope = "streaming \
     user-read-email \
-    user-read-private";
+    user-read-private \
+    playlist-read-private \
+    playlist-read-collaborative \
+    playlist-modify-private \
+    playlist-modify-public \
+    user-follow-modify \
+    user-follow-read \
+    user-library-modify \
+    user-library-read \
+    ";
 
     const state = generateRandomString(16);
 

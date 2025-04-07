@@ -21,6 +21,8 @@ const MusicManagerComponent = (props) => {
 
   const [player, setPlayer] = useState(undefined);
 
+  const [executed, setExecuted] = useState(false);
+
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
@@ -62,53 +64,56 @@ const MusicManagerComponent = (props) => {
   }, [props.volume])
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://sdk.scdn.co/spotify-player.js";
-    script.async = true;
-
-    document.body.appendChild(script);
-
-    try{
-      window.onSpotifyWebPlaybackSDKReady = () => {
-
-        const player = new window.Spotify.Player({
-            name: 'Web Playback SDK',
-            getOAuthToken: cb => { cb(localStorage.getItem("S_TOKEN")); },
-            volume: props.volume / 100
-        });
+    if(executed == false){
+      const script = document.createElement("script");
+      script.src = "https://sdk.scdn.co/spotify-player.js";
+      script.async = true;
   
-        setPlayer(player);
+      document.body.appendChild(script);
   
-        player.addListener('ready', ({ device_id }) => {
-            console.log('Ready with Device ID', device_id);
-        });
+      try{
+        window.onSpotifyWebPlaybackSDKReady = () => {
   
-        player.addListener('not_ready', ({ device_id }) => {
-            console.log('Device ID has gone offline', device_id);
-        });
-  
-        player.addListener('player_state_changed', ( state => {
-          console.log("STATE")
-          if (!state) {
-              return;
-          }
-      
-          setTrack(state.track_window.current_track);
-          setPaused(state.paused);
-
-          player.getCurrentState().then( state => { 
-              (!state)? setActive(false) : setActive(true) 
+          const player = new window.Spotify.Player({
+              name: 'Web Playback SDK',
+              getOAuthToken: cb => { cb(localStorage.getItem("S_TOKEN")); },
+              volume: props.volume / 100
           });
-      
-        }));
+    
+          setPlayer(player);
+    
+          player.addListener('ready', ({ device_id }) => {
+              console.log('Ready with Device ID', device_id);
+          });
+    
+          player.addListener('not_ready', ({ device_id }) => {
+              console.log('Device ID has gone offline', device_id);
+          });
+    
+          player.addListener('player_state_changed', ( state => {
+            console.log(state)
+            if (!state) {
+                return;
+            }
+        
+            setTrack(state.track_window.current_track);
+            setPaused(state.paused);
   
-        player.connect();
+            player.getCurrentState().then( state => { 
+                (!state)? setActive(false) : setActive(true) 
+            });
+        
+          }));
     
-      };
-    }catch(err){
-      console.log(`Couldn't create music player | ${err}`)
+          player.connect();
+      
+        };
+      }catch(err){
+        console.log(`Couldn't create music player | ${err}`)
+      }
+      
+      setExecuted(true)
     }
-    
   }, [props.connected])
 
   return (
