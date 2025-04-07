@@ -8,6 +8,7 @@ import SideBarComponent from "@/components/SideBarComponent";
 import AppWindowComponent from "@/components/AppWindowComponent";
 import MusicManagerComponent from "@/components/MusicManagerComponent";
 import SearchComponent from "@/components/SearchComponent";
+import PlaylistWindowComponent from "@/components/appWindowComponents/PlaylistWindowComponent";
 
 const musicPage = () => {
   const router = useRouter();
@@ -42,6 +43,7 @@ const musicPage = () => {
       router.push("/");
     }
   }, []);
+  
 
   const [sliderValue, setSliderValue] = useState(50);
   const [volume, setVolume] = useState(50)
@@ -66,6 +68,7 @@ const musicPage = () => {
                 <div className="absolute top-[10px] left-[10px]">
                     <SearchComponent />
                 </div>
+                <PlaylistWindowComponent/>
                 <div className="absolute bottom-[10px] left-[10px]">
                   <input type="range" id="volumeSlider"
                   min="0"
