@@ -9,8 +9,8 @@ const CurrentSongComponent = (props) => {
           {props.img != "" ? (<img src={props.img} alt={props.name}/>) : (null)}
         </div>
         <div className="flex flex-col items-start h-30 justify-between ml-2 max-w-[300px] min-w-[150px]">
-          <div className="text-2xl text-gray-400">{props.name}</div>
-          <div className="text-gray-200 text-base">{props.artists.map((x, index) => {
+          <div className="text-3xl font-semibold text-gray-200">{props.name}</div>
+          <div className="text-gray-400 text-base">{props.artists.map((x, index) => {
             if(props.artists.length-1 == index){
               return x.name
             }

@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import ConnectedConfComponent from "./ConnectedConfComponent";
 
 const SideBarComponent = (props) => {
-  const [currentPage, setCurrentPage] = useState("");
+  
   const [sToken, setSToken] = useState("");
 
   const handleLogout = () => {
@@ -43,12 +43,13 @@ const SideBarComponent = (props) => {
       if(request.ok){
         const data = await request.json();
         
-        const currentTime = new Date().getTime();
+        const currentTime = new Date().getTime() + (60*60*1000);
 
         localStorage.setItem("S_TOKEN", data.message.token);
-        localStorage.setItem("S_TOKEN_EXPIRES_IN", currentTime)
+        localStorage.setItem("S_TOKEN_EXPIRES_IN", currentTime);
         localStorage.setItem("S_REFRESH", data.message.refreshToken);
-        props.setConnected(true)
+        setSToken(data.message.token);
+        props.setConnected(true);
 
         if(document.querySelector("#logSpot") != undefined){
           document.querySelector("#logSpot").remove();
@@ -56,12 +57,9 @@ const SideBarComponent = (props) => {
 
         return true;
       }else{
-        const token_expiration_time = localStorage.getItem("S_TOKEN_EXPIRES_IN")
-        const currentTime = new Date().getTime();
-
-        if(token_expiration_time < currentTime){
-          generateLink();
-        }
+        const data = await request.json();
+        console.log(data.message)
+        return false;
       }
     }catch(err){
       console.log(`Couldn't retrieve Spotify Token | ${err}`);
@@ -73,8 +71,9 @@ const SideBarComponent = (props) => {
 
     const newLink = document.createElement("a");
     newLink.href = spotifyLink;
-    newLink.innerText = "Log In To Spotify";
+    newLink.innerText = "Connect To Spotify";
     newLink.id = "logSpot";
+    newLink.className="text-xs bg-[#ff0000] rounded-xl p-2 text-white font-bold"
 
     if(document.querySelector("#logSpot") == undefined || document.querySelector("#logSpot") == null){
       document.querySelector("#navbar").appendChild(newLink);
@@ -82,15 +81,31 @@ const SideBarComponent = (props) => {
   }
 
   const manageRenderingSite = async () => {
-    if(localStorage.getItem("S_TOKEN") == null){
+    if(localStorage.getItem("S_TOKEN") != null){
+      console.log("1")
+      const token_expiration_time = parseInt(localStorage.getItem("S_TOKEN_EXPIRES_IN"))
+      const currentTime = new Date().getTime();
+      console.log(currentTime, token_expiration_time)
+      if(token_expiration_time < currentTime){
+        console.log(11)
+        generateLink();
+      }else{
+        console.log(12)
+        setSToken(localStorage.getItem("S_TOKEN"));
+        props.setConnected(true)
+      }
+    }else{
+      console.log(2)
       const request = await retrieveSToken();
 
       if(request == false){
+        console.log(21)
         generateLink();
+      }else{
+        console.log(22)
+        setSToken(localStorage.getItem("S_TOKEN"));
+        props.setConnected(true)
       }
-    }else{
-      setSToken(localStorage.getItem("S_TOKEN"));
-      props.setConnected(true)
     }
   }
 
@@ -113,7 +128,7 @@ const SideBarComponent = (props) => {
         <SideBarButtonComponent 
           icon={<BsRecordCircle />} 
           text="Albums" 
-          action={setCurrentPage} 
+          action={props.setCurrentPage} 
           to="albums" 
         />
 
@@ -121,25 +136,25 @@ const SideBarComponent = (props) => {
         <SideBarButtonComponent 
           icon={<BsFillHeartFill />} 
           text="Your favorites" 
-          action={setCurrentPage} 
+          action={props.setCurrentPage} 
           to="favorites" 
         />
         <SideBarButtonComponent 
           icon={<BsMusicNoteList />} 
           text="Your playlist" 
-          action={setCurrentPage} 
+          action={props.setCurrentPage} 
           to="playlist" 
         />
         <SideBarButtonComponent 
           icon={<BsFolderPlus />} 
           text="Add playlist" 
-          action={setCurrentPage} 
+          action={props.setCurrentPage} 
           to="addplaylist" 
         />
         <SideBarButtonComponent 
           icon={<BsFolderPlus />} 
           text="Add song" 
-          action={setCurrentPage} 
+          action={props.setCurrentPage} 
           to="addsong" 
         />
 
@@ -155,7 +170,7 @@ const SideBarComponent = (props) => {
         <SideBarButtonComponent 
           icon={<BsGearFill />} 
           text="Settings" 
-          action={setCurrentPage} 
+          action={props.setCurrentPage} 
           to="settings" 
         />
         {props.connected ? (<ConnectedConfComponent/>) : (null)}

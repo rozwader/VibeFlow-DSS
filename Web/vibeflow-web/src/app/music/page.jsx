@@ -1,7 +1,5 @@
 "use client";
 
-import HeaderComponent from "@/components/HeaderComponent";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import SideBarComponent from "@/components/SideBarComponent";
@@ -14,6 +12,23 @@ const musicPage = () => {
   const router = useRouter();
 
   const [isConnected, setIsConnected] = useState(false);
+
+  // lista stron
+  // settings, albums, favorites, playlist, addplaylist, addsong
+
+  const pageComponents = {
+    "playlist": <PlaylistWindowComponent />
+  }
+
+  const [currentPage, setCurrentPage] = useState("");
+
+  const returnPage = () => {
+    return pageComponents[currentPage]
+  }
+
+  useEffect(() => {
+    console.log(currentPage)
+  }, [currentPage])
 
   const checkToken = async () => {
     const token = localStorage.getItem("TOKEN");
@@ -60,7 +75,7 @@ const musicPage = () => {
   return (
     <div className="w-screen h-screen flex flex-row items-center justify-start">
         <div className="w-1/8">
-            <SideBarComponent setConnected={setIsConnected} connected={isConnected} />
+            <SideBarComponent setConnected={setIsConnected} connected={isConnected} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </div>
         
         <div className="w-7/8 h-screen flex flex-col">
@@ -68,7 +83,13 @@ const musicPage = () => {
                 <div className="absolute top-[10px] left-[10px]">
                     <SearchComponent />
                 </div>
-                <PlaylistWindowComponent/>
+                {/* {() => {switch(currentPage){
+                  case "playlist":
+                    return <PlaylistWindowComponent />;
+                  default:
+                    return <PlaylistWindowComponent />;
+                }}} */}
+                <AppWindowComponent currentPage={currentPage} />
                 <div className="absolute bottom-[10px] left-[10px]">
                   <input type="range" id="volumeSlider"
                   min="0"
@@ -77,10 +98,9 @@ const musicPage = () => {
                   step="1"
                   onChange={handleChange}
                   onMouseUp={changeVolume}
-                  className="w-100 h-10"
+                  className="w-100 h-10 color-white"
                   />
                 </div>
-                <AppWindowComponent />
             </div>
             <div className="w-1/1 h-1/5 bg-[#252525]">
                 <MusicManagerComponent volume={volume} connected={isConnected} />

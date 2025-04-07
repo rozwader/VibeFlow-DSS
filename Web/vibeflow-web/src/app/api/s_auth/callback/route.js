@@ -60,6 +60,6 @@ export const POST = async () => {
         }
         return response(payload, 200);
     }else{
-        return response(null, 404)
+        return response("Token doesn't exist", 404)
     }
 }
