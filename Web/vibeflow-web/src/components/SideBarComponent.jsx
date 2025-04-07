@@ -9,14 +9,12 @@ import { BsFillHouseDoorFill, BsRecordCircle, BsFillHeartFill, BsMusicNoteList, 
 import { useEffect, useState } from "react";
 import ConnectedConfComponent from "./ConnectedConfComponent";
 
-const SideBarComponent = () => {
+const SideBarComponent = (props) => {
   const [currentPage, setCurrentPage] = useState("");
   const [sToken, setSToken] = useState("");
 
   const handleLogout = () => {
-    localStorage.removeItem("TOKEN");
-    localStorage.removeItem("User");
-    localStorage.removeItem("S_TOKEN");
+    localStorage.clear();
   };
 
   const getLoginToSpotify = async () => {
@@ -44,14 +42,26 @@ const SideBarComponent = () => {
 
       if(request.ok){
         const data = await request.json();
-        localStorage.setItem("S_TOKEN", data.message);
+        
+        const currentTime = new Date().getTime();
+
+        localStorage.setItem("S_TOKEN", data.message.token);
+        localStorage.setItem("S_TOKEN_EXPIRES_IN", currentTime)
+        localStorage.setItem("S_REFRESH", data.message.refreshToken);
         props.setConnected(true)
 
-        document.querySelector("#logSpot").remove();
+        if(document.querySelector("#logSpot") != undefined){
+          document.querySelector("#logSpot").remove();
+        }
 
         return true;
       }else{
-        return false;
+        const token_expiration_time = localStorage.getItem("S_TOKEN_EXPIRES_IN")
+        const currentTime = new Date().getTime();
+
+        if(token_expiration_time < currentTime){
+          generateLink();
+        }
       }
     }catch(err){
       console.log(`Couldn't retrieve Spotify Token | ${err}`);
@@ -148,7 +158,7 @@ const SideBarComponent = () => {
           action={setCurrentPage} 
           to="settings" 
         />
-        {sToken != "" ? (<ConnectedConfComponent/>) : (null)}
+        {props.connected ? (<ConnectedConfComponent/>) : (null)}
       </nav>
     </div>
   );

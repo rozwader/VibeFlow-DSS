@@ -7,6 +7,7 @@ const response = (message, status) => {
 }
 
 let token = ""
+let refreshToken = ""
 
 export const GET = async (req) => {
     const code = req.url.split("code=")[1]
@@ -38,6 +39,7 @@ export const GET = async (req) => {
         if(request.ok){
             const data = await request.json();
             token = data.access_token;
+            refreshToken = data.refresh_token;
             
             return NextResponse.redirect(new URL('/music/', req.url))
         }else{
@@ -52,7 +54,11 @@ export const GET = async (req) => {
 
 export const POST = async () => {
     if(token != ""){
-        return response(token, 200);
+        const payload = {
+            token: token,
+            refreshToken: refreshToken
+        }
+        return response(payload, 200);
     }else{
         return response(null, 404)
     }
