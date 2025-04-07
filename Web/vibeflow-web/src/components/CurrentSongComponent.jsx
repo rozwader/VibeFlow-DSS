@@ -6,7 +6,7 @@ const CurrentSongComponent = (props) => {
     <>
       <div className="flex items-end justify-center ml-25">
         <div className="relative h-30 w-30">
-          <img src={props.img} alt={props.name}/>
+          {props.img != "" ? (<img src={props.img} alt={props.name}/>) : (null)}
         </div>
         <div className="flex flex-col items-start justify-center ml-2">
           <div className="text-white text-3xl">{props.name}</div>

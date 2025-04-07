@@ -53,7 +53,12 @@ const MusicManagerComponent = (props) => {
   }, [current_track, is_paused])
 
   useEffect(() => {
-    player.setVolume(props.volume/100)
+    try{
+      player.setVolume(props.volume/100)
+    }catch(err){
+      console.log(err);
+    }
+    
   }, [props.volume])
 
   useEffect(() => {
