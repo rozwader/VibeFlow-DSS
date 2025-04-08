@@ -10,7 +10,7 @@ const TopArtistsComponent = ({ topArtists }) => (
           <img
             src={artist.images[0]?.url}
             alt={artist.name}
-            className="w-50 h-50 object-cover rounded-full shadow-md"
+            className="w-50 h-50 object-cover rounded-[50%] shadow-md"
           />
           <p className="font-bold text-sm mt-2 text-center">{artist.name}</p>
         </div>
