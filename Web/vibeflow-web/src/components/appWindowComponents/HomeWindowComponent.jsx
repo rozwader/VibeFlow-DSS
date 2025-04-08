@@ -13,7 +13,7 @@ const HomeWindowComponent = () => {
   const [recentTracks, setRecentTracks] = useState([]);
   const [playlists, setPlaylists] = useState([]);
 
-  const fetchSpotifyData = async () => {
+  useEffect(() => {
     const token = localStorage.getItem("S_TOKEN");
     if (!token) return;
 
@@ -21,37 +21,61 @@ const HomeWindowComponent = () => {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const [userRes, tracksRes, artistsRes, recentRes, playlistsRes] =
-        await Promise.all([
-          fetch("https://api.spotify.com/v1/me", { headers }),
-          fetch("https://api.spotify.com/v1/me/top/tracks?limit=5", {
-            headers,
-          }),
-          fetch("https://api.spotify.com/v1/me/top/artists?limit=5", {
-            headers,
-          }),
-          fetch(
-            "https://api.spotify.com/v1/me/player/recently-played?limit=5",
-            {
-              headers,
-            }
-          ),
-          fetch("https://api.spotify.com/v1/me/playlists?limit=5", { headers }),
-        ]);
+    const fetchUser = async () => {
+      const res = await fetch("https://api.spotify.com/v1/me", { headers });
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+      } else {
+        console.error("Błąd pobierania użytkownika:", await res.text());
+      }
+    };
 
-      if (userRes.ok) setUser(await userRes.json());
-      if (tracksRes.ok) setTopTracks((await tracksRes.json()).items);
-      if (artistsRes.ok) setTopArtists((await artistsRes.json()).items);
-      if (recentRes.ok) setRecentTracks((await recentRes.json()).items);
-      if (playlistsRes.ok) setPlaylists((await playlistsRes.json()).items);
-    } catch (error) {
-      console.error("Błąd ładowania danych ze Spotify:", error);
-    }
-  };
+    const fetchTopTracks = async () => {
+      const res = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=5", { headers });
+      if (res.ok) {
+        const data = await res.json();
+        setTopTracks(data.items);
+      } else {
+        console.error("Błąd pobierania top tracks:", await res.text());
+      }
+    };
 
-  useEffect(() => {
-    fetchSpotifyData();
+    const fetchTopArtists = async () => {
+      const res = await fetch("https://api.spotify.com/v1/me/top/artists?limit=5", { headers });
+      if (res.ok) {
+        const data = await res.json();
+        setTopArtists(data.items);
+      } else {
+        console.error("Błąd pobierania top artists:", await res.text());
+      }
+    };
+
+    const fetchRecentTracks = async () => {
+      const res = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=5", { headers });
+      if (res.ok) {
+        const data = await res.json();
+        setRecentTracks(data.items);
+      } else {
+        console.error("Błąd pobierania recently played:", await res.text());
+      }
+    };
+
+    const fetchPlaylists = async () => {
+      const res = await fetch("https://api.spotify.com/v1/me/playlists?limit=5", { headers });
+      if (res.ok) {
+        const data = await res.json();
+        setPlaylists(data.items);
+      } else {
+        console.error("Błąd pobierania playlist:", await res.text());
+      }
+    };
+
+    fetchUser();
+    fetchTopTracks();
+    fetchTopArtists();
+    fetchRecentTracks();
+    fetchPlaylists();
   }, []);
 
   return (
