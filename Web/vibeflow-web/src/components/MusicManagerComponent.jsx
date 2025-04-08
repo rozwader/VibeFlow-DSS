@@ -122,9 +122,8 @@ const MusicManagerComponent = (props) => {
         <div></div>
         <div></div>
       </div>
-      <div className="w-1/1 h-1/1 flex items-center justify-center">
+      <div className="w-full max-w-3xl px-4 flex items-center justify-between">
         <CurrentSongComponent img={current_track.album.images[0].url} name={current_track.name} artists={current_track.artists} />
-        {/* <SliderComponent time={currentTrackTime}/> */}
         <CurrentSongControllerComponent entity={player} paused={is_paused} />
       </div>
     </div>

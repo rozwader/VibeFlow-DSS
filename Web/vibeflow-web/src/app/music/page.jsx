@@ -74,7 +74,7 @@ const musicPage = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-row items-center justify-start">
+    <div className="w-screen h-screen flex flex-row">
       <div className="w-1/8">
         <SideBarComponent
           setConnected={setIsConnected}
@@ -83,39 +83,40 @@ const musicPage = () => {
           setCurrentPage={setCurrentPage}
         />
       </div>
-
-      <div className="w-7/8 h-screen flex flex-col">
-        <div className="w-1/1 h-4/5 relative">
-          <div className="absolute top-5 left-170">
-            <SearchComponent />
-          </div>
-          {/* {() => {switch(currentPage){
+      <div className="w-7/8 flex flex-col">
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-4 space-y-8">
+            <div className="mb-8">
+              <SearchComponent />
+            </div>
+            {/* {() => {switch(currentPage){
                   case "playlist":
                     return <PlaylistWindowComponent />;
                   default:
                     return <PlaylistWindowComponent />;
                 }}} */}
-          <AppWindowComponent currentPage={currentPage} />
-          <div className="absolute bottom-[10px] right-[30px]">
-            <input
-              type="range"
-              id="volumeSlider"
-              min="0"
-              max="100"
-              value={sliderValue}
-              step="1"
-              onChange={handleChange}
-              onMouseUp={changeVolume}
-              className="w-100 h-10 range-slider bg-black cursor-pointer"
-            />
+            <AppWindowComponent currentPage={currentPage} />
           </div>
         </div>
-        <div className="w-1/1 h-1/5 bg-[#252525]">
+        <div className="h-[100px] bg-[#252525]">
           <MusicManagerComponent volume={volume} connected={isConnected} />
+        </div>
+        <div className="px-4 py-2">
+          <input
+            type="range"
+            id="volumeSlider"
+            min="0"
+            max="100"
+            value={sliderValue}
+            step="1"
+            onChange={handleChange}
+            onMouseUp={changeVolume}
+            className="w-full"
+          />
         </div>
       </div>
     </div>
-  );
+  );  
 };
 
 export default musicPage;

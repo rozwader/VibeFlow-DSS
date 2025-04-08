@@ -42,7 +42,7 @@ const HomeWindowComponent = () => {
     };
 
     const fetchTopArtists = async () => {
-      const res = await fetch("https://api.spotify.com/v1/me/top/artists?limit=5", { headers });
+      const res = await fetch("https://api.spotify.com/v1/me/top/artists?limit=10", { headers });
       if (res.ok) {
         const data = await res.json();
         setTopArtists(data.items);
@@ -79,16 +79,18 @@ const HomeWindowComponent = () => {
   }, []);
 
   return (
-    <div className="p-6 space-y-10">
+    <div className="p-8 w-full space-y-12">
       {user && (
-        <div className="text-2xl font-bold text-black">
+        <div className="text-3xl font-bold text-black mb-4">
           Welcome, {user.display_name} 👋
         </div>
       )}
-
       <TopArtistsComponent topArtists={topArtists} />
-      <TopTracksComponent topTracks={topTracks} />
-      <RecentlyPlayedComponent recentTracks={recentTracks} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+        <TopTracksComponent topTracks={topTracks} />
+        <RecentlyPlayedComponent recentTracks={recentTracks} />
+      </div>
+
       <PlaylistsComponent playlists={playlists} />
     </div>
   );
