@@ -2,11 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import vibeflowlogo from "../../../public/vibeflowlogo.png";
-import Link from "next/link";
 import Image from "next/image";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsFillLockFill } from "react-icons/bs";
 import { BsEnvelopeFill } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF } from "react-icons/fa";
 
 const registerPage = () => {
   const router = useRouter();
@@ -37,14 +38,14 @@ const registerPage = () => {
     <>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col items-center justify-center min-h-screen">
-          <Image src={vibeflowlogo} alt="logo" className="w-100 h-100"></Image>
-          <div className="w-full max-w-xl p-6">
+          <Image src={vibeflowlogo} alt="logo" className="w-64 h-64 mb-4" />
+          <div className="w-full max-w-xl p-6 bg-white shadow-xl rounded-xl">
             <div className="mb-4">
               <label
                 className="block text-gray-700 font-semibold mb-2"
                 htmlFor="email"
               >
-                E-mail
+                E-Mail
               </label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
@@ -52,8 +53,8 @@ const registerPage = () => {
                 </span>
                 <input
                   className="block w-full pl-10 pr-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  type="text"
-                  placeholder="Enter Your E-mail"
+                  type="email"
+                  placeholder="Enter Your E-Mail"
                   name="Email"
                 />
               </div>
@@ -97,11 +98,32 @@ const registerPage = () => {
               </div>
             </div>
             <button
-              className="w-full bg-black text-white py-2 rounded border border-black hover:bg-white hover:text-black transition-colors cursor-pointer"
+              className="w-full bg-black text-white py-2 rounded border border-black hover:bg-white hover:text-black transition-colors cursor-pointer mb-4"
               type="submit"
             >
-              Sign in
+              Sign up
             </button>
+
+            <div className="flex items-center justify-center my-4">
+              <span className="text-gray-400 text-sm">or sign up with</span>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <button
+                type="button"
+                className="flex items-center justify-center gap-3 border border-gray-300 rounded py-2 hover:bg-gray-100 transition-colors"
+              >
+                <FcGoogle className="text-xl" />
+                <span className="text-gray-700">Sign up with Google</span>
+              </button>
+              <button
+                type="button"
+                className="flex items-center justify-center gap-3 border border-gray-300 rounded py-2 hover:bg-gray-100 transition-colors"
+              >
+                <FaFacebookF className="text-blue-600 text-xl" />
+                <span className="text-gray-700">Sign up with Facebook</span>
+              </button>
+            </div>
           </div>
         </div>
       </form>

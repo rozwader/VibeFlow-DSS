@@ -2,10 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import vibeflowlogo from "../../../public/vibeflowlogo.png";
-import Link from "next/link";
 import Image from "next/image";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsFillLockFill } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF } from "react-icons/fa";
 
 const loginPage = () => {
   const router = useRouter();
@@ -38,8 +39,8 @@ const loginPage = () => {
     <>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col items-center justify-center min-h-screen">
-          <Image src={vibeflowlogo} alt="logo" className="w-100 h-100"></Image>
-          <div className="w-full max-w-xl p-6">
+          <Image src={vibeflowlogo} alt="logo" className="w-64 h-64 mb-4" />
+          <div className="w-full max-w-xl p-6 bg-white shadow-xl rounded-xl">
             <div className="mb-4">
               <label
                 className="block text-gray-700 font-semibold mb-2"
@@ -79,11 +80,32 @@ const loginPage = () => {
               </div>
             </div>
             <button
-              className="w-full bg-black text-white py-2 rounded border border-black hover:bg-white hover:text-black transition-colors cursor-pointer"
+              className="w-full bg-black text-white py-2 rounded border border-black hover:bg-white hover:text-black transition-colors cursor-pointer mb-4"
               type="submit"
             >
               Sign in
             </button>
+
+            <div className="flex items-center justify-center my-4">
+              <span className="text-gray-400 text-sm">or sign in with</span>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <button
+                type="button"
+                className="flex items-center justify-center gap-3 border border-gray-300 rounded py-2 hover:bg-gray-100 transition-colors"
+              >
+                <FcGoogle className="text-xl" />
+                <span className="text-gray-700">Sign in with Google</span>
+              </button>
+              <button
+                type="button"
+                className="flex items-center justify-center gap-3 border border-gray-300 rounded py-2 hover:bg-gray-100 transition-colors"
+              >
+                <FaFacebookF className="text-blue-600 text-xl" />
+                <span className="text-gray-700">Sign in with Facebook</span>
+              </button>
+            </div>
           </div>
         </div>
       </form>
