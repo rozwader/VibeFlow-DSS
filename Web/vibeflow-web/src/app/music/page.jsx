@@ -96,7 +96,7 @@ const musicPage = () => {
                     return <PlaylistWindowComponent />;
                 }}} */}
           <AppWindowComponent currentPage={currentPage} />
-          <div className="absolute bottom-[10px] left-[10px]">
+          <div className="absolute bottom-[10px] right-[30px]">
             <input
               type="range"
               id="volumeSlider"
@@ -106,7 +106,7 @@ const musicPage = () => {
               step="1"
               onChange={handleChange}
               onMouseUp={changeVolume}
-              className="w-100 h-10 color-white"
+              className="w-100 h-10 range-slider bg-black cursor-pointer"
             />
           </div>
         </div>

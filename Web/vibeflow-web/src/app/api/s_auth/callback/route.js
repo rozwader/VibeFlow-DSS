@@ -12,18 +12,18 @@ let refreshToken = ""
 export const GET = async (req) => {
     const code = req.url.split("code=")[1]
 
-    const authOptions = {
-        form: {
-            code: code,
-            redirect_uri: "http://localhost:3000/api/s_auth/callback",
-            grant_type: "authorization_code",
-        },
-        headers: {
-            'Authorization': 'Basic ' + (Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64')),
-            'Content-Type' : 'application/x-www-form-urlencoded'
-        },
-        json: true,
-    };
+    // const authOptions = {
+    //     form: {
+    //         code: code,
+    //         redirect_uri: "http://localhost:3000/api/s_auth/callback",
+    //         grant_type: "authorization_code",
+    //     },
+    //     headers: {
+    //         'Authorization': 'Basic ' + (Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64')),
+    //         'Content-Type' : 'application/x-www-form-urlencoded'
+    //     },
+    //     json: true,
+    // };
 
     try{
         const request = await fetch("https://accounts.spotify.com/api/token", {

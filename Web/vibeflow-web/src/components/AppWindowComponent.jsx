@@ -22,7 +22,7 @@ const AppWindowComponent = (props) => {
     generateComponent(props.currentPage);
   }, [props.currentPage]);
 
-  return <div className="w-1/1 h-1/1 bg-white">{page}</div>;
+  return <div className="w-1/1 h-1/1 bg-white overflow-y-scroll">{page}</div>;
 };
 
 export default AppWindowComponent;
