@@ -8,7 +8,6 @@ const response = (message, status) => {
 
 export const POST = async (req) => {
     const reqData = await req.json();
-
     const r_token = reqData["r_token"];
 
     try{
@@ -18,7 +17,11 @@ export const POST = async (req) => {
                 'Authorization': 'Basic ' + (Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64')),
                 'Content-Type' : 'application/x-www-form-urlencoded'
             },
-            body: `grant_type=refresh_token&refresh_token=${r_token}`
+            body: new URLSearchParams({
+                grant_type: "refresh_token",
+                refresh_token: r_token,
+                client_id: process.env.SPOTIFY_CLIENT_ID,
+            })
             
         });
     
@@ -26,10 +29,11 @@ export const POST = async (req) => {
             const data = await request.json();
             const newToken = data.access_token;
             const newRToken = data.refresh_token;
-    
+            console.log("działa")
             return response({newToken, newRToken}, 200)
         }else{
             const data = await request.json();
+            console.log(data);
             return response(`Error | ${data}`, 404);
         }
     }catch(err){

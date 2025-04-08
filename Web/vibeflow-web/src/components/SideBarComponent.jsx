@@ -113,6 +113,8 @@ const SideBarComponent = (props) => {
 
         setSToken(localStorage.getItem("S_TOKEN"));
         props.setConnected(true);
+
+        window.location.reload();
       }
     }catch(err){
       console.log(`Couldn't Refresh Spotify Token | ${err}`)
