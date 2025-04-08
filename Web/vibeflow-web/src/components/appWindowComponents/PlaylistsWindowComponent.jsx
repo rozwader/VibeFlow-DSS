@@ -30,27 +30,24 @@ const PlaylistsWindowComponent = () => {
   }, []);
 
   return (
-    <div className="absolute top-25 left-6 flex flex-col gap-4 w-full px-4">
-      <h2 className="text-black text-xl font-semibold mb-2">Your playlists</h2>
-
-      <ul className="grid grid-cols-5 gap-6 w-full">
-        {playlists.map((playlist) => (
-          <li key={playlist.id} className="flex flex-col items-start space-y-2">
+    <div className="p-4">
+    <h2 className="text-xl font-semibold mb-4 text-white">Your Playlists</h2>
+    <div className="flex overflow-x-auto gap-4 pb-4">
+      {playlists.map((playlist) => (
+        <div key={playlist.id} className="flex-shrink-0 w-40">
+          <div className="bg-[#181818] p-3 rounded">
             <img
-              src={playlist.images[0]?.url}
-              className="h-48 w-48 object-cover rounded-lg shadow-md"
-              alt={`Okładka ${playlist.name}`}
+              src={playlist.images[0]?.url || '/default-playlist.png'}
+              className="w-full aspect-square object-cover mb-2 rounded"
+              alt={playlist.name}
             />
-            <p className="font-semibold text-base truncate max-w-[12rem]">
-              {playlist.name}
-            </p>
-            <p className="text-sm text-gray-700">
-              {playlist.tracks.total} tracks
-            </p>
-          </li>
-        ))}
-      </ul>
+            <p className="text-white font-medium truncate text-sm">{playlist.name}</p>
+            <p className="text-gray-400 text-xs">{playlist.tracks.total} tracks</p>
+          </div>
+        </div>
+      ))}
     </div>
+  </div>
   );
 };
 
