@@ -28,6 +28,8 @@ export const GET = () => {
     user-follow-read \
     user-library-modify \
     user-library-read \
+    user-top-read \
+    user-read-recently-played \
     ";
 
     const state = generateRandomString(16);
