@@ -91,6 +91,34 @@ const SideBarComponent = (props) => {
     }
   };
 
+  const refreshToken = async () => {
+    const r_token = localStorage.getItem("S_REFRESH");
+
+    try{
+      const request = await fetch("/api/s_auth/refreshToken/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({r_token})
+      })
+
+      if(request.ok){
+        const data = await request.json();
+        console.log(data);
+
+        const currentTime = new Date().getTime() + 60 * 60 * 1000;
+
+        localStorage.setItem("S_TOKEN", data.message.newToken);
+        localStorage.setItem("S_REFRESH", data.message.newRToken);
+        localStorage.setItem("S_TOKEN_EXPIRES_IN", currentTime);
+
+        setSToken(localStorage.getItem("S_TOKEN"));
+        props.setConnected(true);
+      }
+    }catch(err){
+      console.log(`Couldn't Refresh Spotify Token | ${err}`)
+    }
+  }
+
   const manageRenderingSite = async () => {
     if (localStorage.getItem("S_TOKEN") != null) {
       console.log("1");
@@ -101,7 +129,7 @@ const SideBarComponent = (props) => {
       console.log(currentTime, token_expiration_time);
       if (token_expiration_time < currentTime) {
         console.log(11);
-        generateLink();
+        refreshToken();
       } else {
         console.log(12);
         setSToken(localStorage.getItem("S_TOKEN"));
