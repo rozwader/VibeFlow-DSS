@@ -1,5 +1,5 @@
 const TopTracksComponent = ({ topTracks }) => (
-  <div className="shadow-md p-3">
+  <div className="shadow-md p-3 overflow-y-scroll h-90">
     <h2 className="text-xl font-semibold mb-4">Your Top Tracks</h2>
     <ul className="space-y-2">
       {topTracks.map((track) => (
