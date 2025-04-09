@@ -91,7 +91,7 @@ const HomeWindowComponent = (props) => {
         <RecentlyPlayedComponent recentTracks={recentTracks} />
       </div>
 
-      <PlaylistsComponent playlists={playlists} />
+      <PlaylistsComponent playlists={playlists} setCurrentPage={props.setCurrentPage} />
     </div>
   );
 };
