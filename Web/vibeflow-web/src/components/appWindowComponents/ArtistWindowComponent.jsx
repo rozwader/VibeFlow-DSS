@@ -58,7 +58,7 @@ const ArtistWindowComponent = (props) => {
     if (!currentArtist) {
         return (
             <div className="p-8 w-full text-center text-red-500">
-                Couldn't load artist data
+                Loading artist data...
             </div>
         );
     }
