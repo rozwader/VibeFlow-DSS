@@ -51,6 +51,10 @@ const ArtistWindowComponent = (props) => {
         getArtist();
     }, []);
 
+    const handleClick = (id) => {
+        props.setCurrentPage(`album ${id}`)
+    }
+
     if (!currentArtist) {
         return (
             <div className="p-8 w-full text-center text-red-500">
@@ -92,7 +96,7 @@ const ArtistWindowComponent = (props) => {
                 <h2 className="text-2xl font-bold mb-6 text-black">Albums</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                     {currentAlbums.map((album) => (
-                        <div key={album.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div key={album.id} className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onClick={() => handleClick(album.id)}>
                             <div className="relative aspect-square">
                                 <Image
                                     src={album.images[1].url}

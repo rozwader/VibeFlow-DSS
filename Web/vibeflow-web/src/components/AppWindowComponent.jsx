@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PlaylistsWindowComponent from "./appWindowComponents/PlaylistsWindowComponent";
 import HomeWindowComponent from "./appWindowComponents/HomeWindowComponent";
 import ArtistWindowComponent from "./appWindowComponents/ArtistWindowComponent";
+import AlbumWindowComponent from "./appWindowComponents/AlbumWindowComponent";
 
 const AppWindowComponent = (props) => {
   const [page, setPage] = useState(undefined);
@@ -11,8 +12,10 @@ const AppWindowComponent = (props) => {
     if(pageById.length > 1){
       switch(pageById[0]){
         case "artist":
-          setPage(<ArtistWindowComponent artistId={pageById[1]} />)
+          setPage(<ArtistWindowComponent artistId={pageById[1]} setCurrentPage={props.setCurrentPage} />)
           break;
+        case "album":
+          setPage(<AlbumWindowComponent albumId={pageById[1]}/>)
         default:
           break;
       }
