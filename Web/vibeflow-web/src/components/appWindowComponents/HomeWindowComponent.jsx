@@ -6,7 +6,7 @@ import TopTracksComponent from "../TopTracksComponent";
 import RecentlyPlayedComponent from "../RecentlyPlayedComponent";
 import PlaylistsComponent from "../PlaylistsComponent";
 
-const HomeWindowComponent = () => {
+const HomeWindowComponent = (props) => {
   const [user, setUser] = useState(null);
   const [topTracks, setTopTracks] = useState([]);
   const [topArtists, setTopArtists] = useState([]);
@@ -32,7 +32,7 @@ const HomeWindowComponent = () => {
     };
 
     const fetchTopTracks = async () => {
-      const res = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=5", { headers });
+      const res = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=15", { headers });
       if (res.ok) {
         const data = await res.json();
         setTopTracks(data.items);
@@ -52,7 +52,7 @@ const HomeWindowComponent = () => {
     };
 
     const fetchRecentTracks = async () => {
-      const res = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=5", { headers });
+      const res = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=15", { headers });
       if (res.ok) {
         const data = await res.json();
         setRecentTracks(data.items);
@@ -85,7 +85,7 @@ const HomeWindowComponent = () => {
           Welcome, {user.display_name} 👋
         </div>
       )}
-      <TopArtistsComponent topArtists={topArtists} />
+      <TopArtistsComponent topArtists={topArtists} setCurrentPage={props.setCurrentPage} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
         <TopTracksComponent topTracks={topTracks} />
         <RecentlyPlayedComponent recentTracks={recentTracks} />

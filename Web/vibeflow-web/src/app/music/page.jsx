@@ -89,13 +89,7 @@ const musicPage = () => {
             <div className="mb-8">
               <SearchComponent />
             </div>
-            {/* {() => {switch(currentPage){
-                  case "playlist":
-                    return <PlaylistWindowComponent />;
-                  default:
-                    return <PlaylistWindowComponent />;
-                }}} */}
-            <AppWindowComponent currentPage={currentPage} />
+              {isConnected ? (<AppWindowComponent currentPage={currentPage} setCurrentPage={setCurrentPage} />) : (null)}
           </div>
         </div>
         <div className="h-[100px] bg-[#252525]">

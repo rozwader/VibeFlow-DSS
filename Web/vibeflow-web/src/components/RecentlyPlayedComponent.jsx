@@ -1,5 +1,5 @@
 const RecentlyPlayedComponent = ({ recentTracks }) => (
-  <div className="shadow-md p-3">
+  <div className="shadow-md p-3 overflow-y-scroll h-90">
     <h2 className="text-xl font-semibold mb-4">Recently Played</h2>
     <ul className="space-y-2">
       {recentTracks.map(({ track }, idx) => (
