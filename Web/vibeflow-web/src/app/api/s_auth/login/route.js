@@ -30,6 +30,7 @@ export const GET = () => {
     user-library-read \
     user-top-read \
     user-read-recently-played \
+    user-read-playback-state \
     ";
 
     const state = generateRandomString(16);

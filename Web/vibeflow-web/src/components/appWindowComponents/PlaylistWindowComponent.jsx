@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import PlayMusicButtonComponent from "../PlayMusicButtonComponent";
 
 const PlaylistWindowComponent = (props) => {
     
@@ -64,6 +65,40 @@ const PlaylistWindowComponent = (props) => {
         );
     }
 
+    const nextInQueue = async () => {
+        try{
+            const request = await fetch("https://api.spotify.com/v1/me/player/next", {
+                headers: headers,
+                method: "POST"
+            })
+        }catch(err){
+            console.log(`Couldn't skip to the next | ${err}`)
+        }
+    }
+
+    const addToQueue = async (uri) => {
+        console.log(uri)
+        try{
+            const request = await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${uri}`, {
+                headers: headers,
+                method: "POST",
+                body: {
+                    uri: uri,
+                }
+            })
+
+            if(request.ok){
+                console.log("Added to the queue");
+                await nextInQueue();
+            }else{
+                const data = await request.json();
+                console.log(data);
+            }
+        }catch(err){
+            console.log(`Couldn't add to the queue | ${err}`);
+        }
+    }
+
     return(
         <div className="p-8 w-full space-y-8">
             <div className="flex flex-col md:flex-row items-center gap-6">
@@ -88,7 +123,7 @@ const PlaylistWindowComponent = (props) => {
                 <h2 className="text-2xl font-bold mb-4 text-black">Tracks</h2>
                 <div className="rounded-lg p-4">
                     {currentTracks.map((track, index) => (
-                        <div key={track.id} className="flex items-center py-2 border-b last:border-b-0">
+                        <div key={track.track.id} className="flex items-center py-2 border-b last:border-b-0">
                             <span className="w-8 text-gray-500">{index + 1}</span>
                             <div className="flex-1">
                                 <p className="font-medium text-black">{track.track.name}</p>
@@ -96,6 +131,7 @@ const PlaylistWindowComponent = (props) => {
                                     {track.track.artists.map(artist => artist.name).join(', ')}
                                 </p>
                             </div>
+                            <PlayMusicButtonComponent uri={track.track.uri}/>
                             <span className="text-gray-500">
                                 {new Date(track.track.duration_ms).toISOString().slice(14, 19)}
                             </span>
