@@ -1,18 +1,25 @@
-import { useState } from "react";
+"use client"
+
+import { useEffect, useState } from "react";
 
 const SliderComponent = (props) => {
-
   const handleChange = (e) => {
-    setValue(Number(e.target.value));
+    props.setTime(e.target.value)
   };
 
-  return ( // do zmiany jak api sie rozwinie
-    <div className="w-3/7 mx-auto p-4 flex items-center justify-center">
+  const millisToMinutesAndSeconds = (millis) => {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+  }
+
+  return (
+    <div className="w-3/7 mx-auto p-4 flex items-center justify-center" id="timeTracker">
       <input
         type="range"
         min="0"
-        max="100"
-        value={value}
+        max={props.duration}
+        value={props.time}
         onChange={handleChange}
         className="
           w-full
@@ -26,7 +33,7 @@ const SliderComponent = (props) => {
           range-slider
         "
       />
-      <p className="ml-2 text-white text-center">{props.time}</p>
+      <p className="ml-2 text-white text-center">{millisToMinutesAndSeconds(props.duration)}</p>
     </div>
   );
 };

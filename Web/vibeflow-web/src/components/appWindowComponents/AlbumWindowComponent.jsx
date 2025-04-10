@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import PlayMusicButtonComponent from "../PlayMusicButtonComponent";
 
 const AlbumWindowComponent = (props) => {
     const [currentTracks, setCurrentTracks] = useState(undefined);
@@ -98,6 +99,7 @@ const AlbumWindowComponent = (props) => {
                                     {track.artists.map(artist => artist.name).join(', ')}
                                 </p>
                             </div>
+                            <PlayMusicButtonComponent uri={track.uri}/>
                             <span className="text-gray-500">
                                 {new Date(track.duration_ms).toISOString().slice(14, 19)}
                             </span>

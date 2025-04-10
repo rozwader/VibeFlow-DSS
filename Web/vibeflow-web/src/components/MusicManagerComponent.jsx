@@ -26,32 +26,31 @@ const MusicManagerComponent = (props) => {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
-  const [currentTrackTime, setCurrentTruckTime] = useState("");
-
-  const millisToMinutesAndSeconds = (millis) => {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-  }
+  const [currentTrackTime, setCurrentTrackTime] = useState(0);
+  const [currentTrackDuration, setCurrentTrackDuration] = useState(0);
 
   const getCurrentSongTime = async () => {
     try{
-      player.getCurrentState().then(state => {
-        if(!state){
-          console.log("User is not playing music")
-        }
+      if(player){
+        player.getCurrentState().then(state => {
+          if(!state){
+            console.log("User is not playing music")
+            return null
+          }
 
-        const currentTrackTime = state.position;
-
-        return millisToMinutesAndSeconds(currentTrackTime)
-      })
+          const currentTrackTime = state.position;
+          setCurrentTrackTime(currentTrackTime)
+        })
+      }else{
+        console.log(player)
+      }
     }catch(err){
       console.log(`Couldnt Get Current State | ${err}`)
     }
   }
 
   useEffect(() => {
-    setCurrentTruckTime(getCurrentSongTime());
+    getCurrentSongTime();
   }, [current_track, is_paused])
 
   useEffect(() => {
@@ -81,7 +80,7 @@ const MusicManagerComponent = (props) => {
           });
     
           setPlayer(player);
-    
+
           player.addListener('ready', ({ device_id }) => {
               console.log('Ready with Device ID', device_id);
           });
@@ -95,7 +94,8 @@ const MusicManagerComponent = (props) => {
             if (!state) {
                 return;
             }
-        
+
+            setCurrentTrackDuration(state.duration)
             setTrack(state.track_window.current_track);
             setPaused(state.paused);
   
@@ -106,7 +106,6 @@ const MusicManagerComponent = (props) => {
           }));
     
           player.connect();
-      
         };
       }catch(err){
         console.log(`Couldn't create music player | ${err}`)
@@ -118,12 +117,9 @@ const MusicManagerComponent = (props) => {
 
   return (
     <div className="w-1/1 h-1/1 flex flex-col items-center justify-center">
-      <div className=" flex items-end justify-evenly">
-        <div></div>
-        <div></div>
-      </div>
-      <div className="w-full max-w-3xl px-4 flex items-center justify-between">
+      <div className="w-1/1 px-4 flex flex-row items-center justify-around">
         <CurrentSongComponent img={current_track.album.images[0].url} name={current_track.name} artists={current_track.artists} />
+        <SliderComponent duration={currentTrackDuration} time={currentTrackTime} setTime={setCurrentTrackTime}/>
         <CurrentSongControllerComponent entity={player} paused={is_paused} />
       </div>
     </div>

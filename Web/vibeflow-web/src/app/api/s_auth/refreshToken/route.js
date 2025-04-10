@@ -9,7 +9,7 @@ const response = (message, status) => {
 export const POST = async (req) => {
     const reqData = await req.json();
     const r_token = reqData["r_token"];
-
+    console.log(reqData);
     try{
         const request = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
