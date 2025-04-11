@@ -16,7 +16,7 @@ const ArtistWindowComponent = (props) => {
 
     const getArtistAlbums = async (artistId) => {
         try {
-            const request = await fetch(`https://api.spotify.com/v1/artists/${artistId}/albums?limit=15&include_groups=album`, {
+            const request = await fetch(`https://api.spotify.com/v1/artists/${artistId}/albums?limit=15&include_groups=album,single,compilation`, {
                 headers: headers,
                 method: "GET"
             });

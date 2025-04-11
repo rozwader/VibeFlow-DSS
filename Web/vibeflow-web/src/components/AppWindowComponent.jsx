@@ -4,6 +4,7 @@ import HomeWindowComponent from "./appWindowComponents/HomeWindowComponent";
 import ArtistWindowComponent from "./appWindowComponents/ArtistWindowComponent";
 import AlbumWindowComponent from "./appWindowComponents/AlbumWindowComponent";
 import PlaylistWindowComponent from "./appWindowComponents/PlaylistWindowComponent";
+import AlbumsWindowComponent from "./appWindowComponents/AlbumsWindowComponent";
 
 const AppWindowComponent = (props) => {
   const [page, setPage] = useState(undefined);
@@ -16,10 +17,10 @@ const AppWindowComponent = (props) => {
           setPage(<ArtistWindowComponent artistId={pageById[1]} setCurrentPage={props.setCurrentPage} />)
           break;
         case "album":
-          setPage(<AlbumWindowComponent albumId={pageById[1]}/>)
+          setPage(<AlbumWindowComponent albumId={pageById[1]} setCurrentPage={props.setCurrentPage}/>)
           break;
         case "playlist":
-          setPage(<PlaylistWindowComponent playlistId={pageById[1]}/>)
+          setPage(<PlaylistWindowComponent playlistId={pageById[1]} setCurrentPage={props.setCurrentPage}/>)
         default:
           break;
       }
@@ -30,6 +31,10 @@ const AppWindowComponent = (props) => {
           break;
         case "home":
           setPage(<HomeWindowComponent setCurrentPage={props.setCurrentPage} />);
+          break;
+        case "albums":
+          setPage(<AlbumsWindowComponent setCurrentPage={props.setCurrentPage}/>)
+          break;
         default:
           setPage(<HomeWindowComponent setCurrentPage={props.setCurrentPage} />);
           break;
