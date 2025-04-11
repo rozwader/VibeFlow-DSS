@@ -1,39 +1,46 @@
-"use client"
-
-import { useEffect, useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 
 const SliderComponent = (props) => {
-  const handleChange = (e) => {
-    props.setTime(e.target.value)
+  const [localTime, setLocalTime] = useState(props.time);
+  const [isDragging, setIsDragging] = useState(false);
+
+  useEffect(() => {
+    if (!isDragging) setLocalTime(props.time);
+  }, [props.time, isDragging]);
+
+  const formatTime = (ms) => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = ((ms % 60000) / 1000).toFixed(0);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  const millisToMinutesAndSeconds = (millis) => {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-  }
-
   return (
-    <div className="w-3/7 mx-auto p-4 flex items-center justify-center" id="timeTracker">
+    <div className="w-full max-w-md flex items-center gap-3">
+      <span className="text-xs text-gray-400 w-10 text-right">
+        {formatTime(localTime)}
+      </span>
       <input
         type="range"
         min="0"
-        max={props.duration}
-        value={props.time}
-        onChange={handleChange}
-        className="
-          w-full
-          appearance-none
-          bg-gray-300
-          h-2
-          rounded-lg
-          overflow-hidden
-          cursor-pointer
-          accent-blue-500
-          range-slider
-        "
+        max={props.duration || 1}
+        value={localTime}
+        onChange={(e) => setLocalTime(Number(e.target.value))}
+        onMouseDown={() => setIsDragging(true)}
+        onMouseUp={() => {
+          setIsDragging(false);
+          props.onSeek(localTime);
+        }}
+        onTouchStart={() => setIsDragging(true)}
+        onTouchEnd={() => {
+          setIsDragging(false);
+          props.onSeek(localTime);
+        }}
+        className="flex-1 h-1 bg-[#535353] rounded-full accent-[#ac46fe]"
       />
-      <p className="ml-2 text-white text-center">{millisToMinutesAndSeconds(props.duration)}</p>
+      <span className="text-xs text-gray-400 w-10">
+        {formatTime(props.duration)}
+      </span>
     </div>
   );
 };

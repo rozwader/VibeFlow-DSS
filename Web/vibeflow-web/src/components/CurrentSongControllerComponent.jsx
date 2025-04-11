@@ -1,32 +1,36 @@
-import { useState } from "react";
-import { BsFillSkipStartFill } from "react-icons/bs";
-import { BsFillSkipEndFill } from "react-icons/bs";
-import { BsFillPlayFill } from "react-icons/bs";
-import { BsFillPauseFill } from "react-icons/bs";
-import { BsFillPlusCircleFill } from "react-icons/bs";
+import {
+  BsFillSkipStartFill,
+  BsFillSkipEndFill,
+  BsFillPlayFill,
+  BsFillPauseFill,
+} from "react-icons/bs";
 
 const CurrentSongControllerComponent = (props) => {
-  const [isMusicPlaying, switchMusicPlaying] = useState(false);
-
   return (
-    <>
-      <div className="flex items-center justify-center mr-25">
-        <BsFillSkipStartFill className="text-white w-12 h-12" onClick={() => {props.entity.previousTrack()}} />
-        {!props.paused ? (
-          <BsFillPauseFill
-            className="text-white w-18 h-18"
-            onClick={() => {props.entity.togglePlay()}}
-          />
+    <div className="flex items-center justify-center gap-6 min-w-[200px]">
+      <button
+        onClick={() => props.entity?.previousTrack()}
+        className="text-gray-300 hover:text-white transition-colors"
+      >
+        <BsFillSkipStartFill className="w-6 h-6" />
+      </button>
+      <button
+        onClick={() => props.entity?.togglePlay()}
+        className="bg-white rounded-full p-3 hover:scale-105 transition-transform"
+      >
+        {props.paused ? (
+          <BsFillPlayFill className="w-6 h-6 text-black" />
         ) : (
-          <BsFillPlayFill
-            className="text-white w-18 h-18"
-            onClick={() => {props.entity.togglePlay()}}
-          />
+          <BsFillPauseFill className="w-6 h-6 text-black" />
         )}
-        <BsFillSkipEndFill className="text-white w-12 h-12" onClick={() => {props.entity.nextTrack()}} />
-        <BsFillPlusCircleFill className="text-white w-9 h-9  ml-9" />
-      </div>
-    </>
+      </button>
+      <button
+        onClick={() => props.entity?.nextTrack()}
+        className="text-gray-300 hover:text-white transition-colors"
+      >
+        <BsFillSkipEndFill className="w-6 h-6" />
+      </button>
+    </div>
   );
 };
 
