@@ -175,16 +175,16 @@ const SideBarComponent = (props) => {
           action={props.setCurrentPage}
           to="albums"
         />
-
-        <span className="text-gray-600 text-sm font-semibold">
-          Playlist and favorite
-        </span>
         <SideBarButtonComponent
           icon={<BsFillHeartFill />}
           text="Your favorites"
           action={props.setCurrentPage}
           to="favorites"
         />
+
+        <span className="text-gray-600 text-sm font-semibold">
+          Playlists
+        </span>
         <SideBarButtonComponent
           icon={<BsMusicNoteList />}
           text="Your playlists"

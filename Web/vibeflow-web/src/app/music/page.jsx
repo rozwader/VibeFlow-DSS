@@ -61,17 +61,7 @@ const musicPage = () => {
     }
   }, []);
 
-  const [sliderValue, setSliderValue] = useState(50);
   const [volume, setVolume] = useState(50);
-
-  const handleChange = (e) => {
-    setSliderValue(Number(e.target.value));
-  };
-  const changeVolume = () => {
-    setTimeout(() => {
-      setVolume(document.querySelector("#volumeSlider").value);
-    }, 50);
-  };
 
   return (
     <div className="w-screen h-screen flex flex-row">
@@ -93,20 +83,7 @@ const musicPage = () => {
           </div>
         </div>
         <div className="h-[100px] bg-[#252525]">
-          <MusicManagerComponent volume={volume} connected={isConnected} />
-        </div>
-        <div className="px-4 py-2">
-          <input
-            type="range"
-            id="volumeSlider"
-            min="0"
-            max="100"
-            value={sliderValue}
-            step="1"
-            onChange={handleChange}
-            onMouseUp={changeVolume}
-            className="w-full"
-          />
+          <MusicManagerComponent volume={volume} setVolume={setVolume} connected={isConnected}/>
         </div>
       </div>
     </div>

@@ -1,126 +1,126 @@
-"use client"
-
+"use client";
+import { useEffect, useState } from "react";
 import SliderComponent from "./SliderComponent";
 import CurrentSongComponent from "./CurrentSongComponent";
 import CurrentSongControllerComponent from "./CurrentSongControllerComponent";
-import { useEffect, useState } from "react";
 
 const track = {
   name: "",
   album: {
-      images: [
-          { url: "" }
-      ]
+    images: [{ url: "" }],
   },
-  artists: [
-      { name: "" }
-  ]
-}
+  artists: [{ name: "" }],
+};
 
 const MusicManagerComponent = (props) => {
-
-  const [player, setPlayer] = useState(undefined);
-
+  const [player, setPlayer] = useState(null);
   const [executed, setExecuted] = useState(false);
-
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
   const [currentTrackTime, setCurrentTrackTime] = useState(0);
   const [currentTrackDuration, setCurrentTrackDuration] = useState(0);
 
-  const getCurrentSongTime = async () => {
-    try{
-      if(player){
-        player.getCurrentState().then(state => {
-          if(!state){
-            console.log("User is not playing music")
-            return null
-          }
+  useEffect(() => {
+    let interval;
+    if (!is_paused && player) {
+      interval = setInterval(() => {
+        setCurrentTrackTime((prev) => {
+          const newTime = prev + 1000;
+          return newTime > currentTrackDuration ? currentTrackDuration : newTime;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [is_paused, currentTrackDuration, player]);
 
-          const currentTrackTime = state.position;
-          setCurrentTrackTime(currentTrackTime)
-        })
-      }else{
-        console.log(player)
+  const handleSeek = async (newTime) => {
+    try {
+      if (player) {
+        await player.seek(newTime);
+        setCurrentTrackTime(newTime);
       }
-    }catch(err){
-      console.log(`Couldnt Get Current State | ${err}`)
+    } catch (err) {
+      console.error("Error seeking:", err);
     }
-  }
+  };
 
   useEffect(() => {
-    getCurrentSongTime();
-  }, [current_track, is_paused])
-
-  useEffect(() => {
-    try{
-      player.setVolume(props.volume/100)
-    }catch(err){
-      console.log(err);
-    }
-    
-  }, [props.volume])
-
-  useEffect(() => {
-    if(executed == false){
+    if (!executed && props.connected) {
       const script = document.createElement("script");
       script.src = "https://sdk.scdn.co/spotify-player.js";
       script.async = true;
-  
       document.body.appendChild(script);
-  
-      try{
-        window.onSpotifyWebPlaybackSDKReady = () => {
-  
-          const player = new window.Spotify.Player({
-              name: 'Web Playback SDK',
-              getOAuthToken: cb => { cb(localStorage.getItem("S_TOKEN")); },
-              volume: props.volume / 100
-          });
-    
-          setPlayer(player);
 
-          player.addListener('ready', ({ device_id }) => {
-              console.log('Ready with Device ID', device_id);
-          });
-    
-          player.addListener('not_ready', ({ device_id }) => {
-              console.log('Device ID has gone offline', device_id);
-          });
-    
-          player.addListener('player_state_changed', ( state => {
-            console.log(state)
-            if (!state) {
-                return;
-            }
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        const newPlayer = new window.Spotify.Player({
+          name: "Web Playback SDK",
+          getOAuthToken: (cb) => cb(localStorage.getItem("S_TOKEN")),
+          volume: props.volume / 100,
+        });
 
-            setCurrentTrackDuration(state.duration)
-            setTrack(state.track_window.current_track);
-            setPaused(state.paused);
-  
-            player.getCurrentState().then( state => { 
-                (!state)? setActive(false) : setActive(true) 
-            });
-        
-          }));
-    
-          player.connect();
-        };
-      }catch(err){
-        console.log(`Couldn't create music player | ${err}`)
-      }
-      
-      setExecuted(true)
+        newPlayer.addListener("ready", ({ device_id }) => {
+          console.log("Ready with Device ID", device_id);
+        });
+
+        newPlayer.addListener("player_state_changed", (state) => {
+          if (!state) return;
+          
+          setTrack(state.track_window.current_track);
+          setPaused(state.paused);
+          setCurrentTrackDuration(state.duration);
+          setCurrentTrackTime(state.position);
+        });
+
+        newPlayer.connect();
+        setPlayer(newPlayer);
+      };
+
+      setExecuted(true);
     }
-  }, [props.connected])
+
+    return () => player?.disconnect();
+  }, [props.connected]);
+
+  useEffect(() => {
+    player?.setVolume(props.volume / 100);
+  }, [props.volume, player]);
 
   return (
-    <div className="w-1/1 h-1/1 flex flex-col items-center justify-center">
-      <div className="w-1/1 px-4 flex flex-row items-center justify-around">
-        <CurrentSongComponent img={current_track.album.images[0].url} name={current_track.name} artists={current_track.artists} />
-        <SliderComponent duration={currentTrackDuration} time={currentTrackTime} setTime={setCurrentTrackTime}/>
-        <CurrentSongControllerComponent entity={player} paused={is_paused} />
+    <div className="w-full h-full bg-[#252525] flex flex-col relative">
+      <div className="absolute top-2 left-4 flex items-center gap-2 text-gray-400">
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 12L12 3V21L3 12Z" />
+        </svg>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={props.volume}
+          onChange={(e) => props.setVolume(Number(e.target.value))}
+          className="w-52 h-1 bg-[#535353] rounded-full accent-[#ac46fe]"
+        />
+      </div>
+
+      <div className="flex-1 flex items-center justify-center pt-4">
+        <div className="w-full max-w-6xl flex items-center justify-between px-6 gap-8">
+          <CurrentSongComponent
+            img={current_track.album.images[0]?.url}
+            name={current_track.name}
+            artists={current_track.artists}
+          />
+
+          <SliderComponent
+            duration={currentTrackDuration}
+            time={currentTrackTime}
+            onSeek={handleSeek}
+          />
+
+          <CurrentSongControllerComponent
+            entity={player}
+            paused={is_paused}
+          />
+        </div>
       </div>
     </div>
   );
