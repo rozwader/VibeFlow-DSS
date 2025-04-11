@@ -65,38 +65,8 @@ const PlaylistWindowComponent = (props) => {
         );
     }
 
-    const nextInQueue = async () => {
-        try{
-            const request = await fetch("https://api.spotify.com/v1/me/player/next", {
-                headers: headers,
-                method: "POST"
-            })
-        }catch(err){
-            console.log(`Couldn't skip to the next | ${err}`)
-        }
-    }
-
-    const addToQueue = async (uri) => {
-        console.log(uri)
-        try{
-            const request = await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${uri}`, {
-                headers: headers,
-                method: "POST",
-                body: {
-                    uri: uri,
-                }
-            })
-
-            if(request.ok){
-                console.log("Added to the queue");
-                await nextInQueue();
-            }else{
-                const data = await request.json();
-                console.log(data);
-            }
-        }catch(err){
-            console.log(`Couldn't add to the queue | ${err}`);
-        }
+    const showArtist = (id) => {
+        props.setCurrentPage(`artist ${id}`)
     }
 
     return(
@@ -127,9 +97,14 @@ const PlaylistWindowComponent = (props) => {
                             <span className="w-8 text-gray-500">{index + 1}</span>
                             <div className="flex-1">
                                 <p className="font-medium text-black">{track.track.name}</p>
-                                <p className="text-sm text-gray-600">
-                                    {track.track.artists.map(artist => artist.name).join(', ')}
-                                </p>
+                                {track.track.artists.map((artist, index) => 
+                                    {
+                                        if(index != track.track.artists.length-1){
+                                            return <span key={artist.id} className="text-sm text-gray-600 cursor-pointer" onClick={() => showArtist(artist.id)}>{artist.name}, </span>
+                                        }
+
+                                        return <span key={artist.id} className="text-sm text-gray-600 cursor-pointer" onClick={() => showArtist(artist.id)}>{artist.name}</span>
+                                    })}
                             </div>
                             <PlayMusicButtonComponent uri={track.track.uri}/>
                             <span className="text-gray-500">

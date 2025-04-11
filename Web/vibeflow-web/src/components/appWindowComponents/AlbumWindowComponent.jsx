@@ -51,6 +51,10 @@ const AlbumWindowComponent = (props) => {
         }
     };
 
+    const showArtist = (id) => {
+        props.setCurrentPage(`artist ${id}`);
+    }
+
     useEffect(() => {
         generateComponent();
     }, []);
@@ -77,9 +81,9 @@ const AlbumWindowComponent = (props) => {
                 <div className="flex flex-col gap-2">
                     <h1 className="text-4xl font-bold text-black">{albumData.name}</h1>
                     <div className="flex items-center gap-4 text-gray-600">
-                        <span className="font-semibold">
-                            {albumData.artists.map(artist => artist.name).join(', ')}
-                        </span>
+                        {albumData.artists.map((artist) => {
+                            return <span key={artist.id} className="font-semibold cursor-pointer" onClick={() => showArtist(artist.id)}>{artist.name}</span>
+                        })}
                         <span>•</span>
                         <span>{new Date(albumData.release_date).getFullYear()}</span>
                         <span>•</span>
@@ -96,7 +100,14 @@ const AlbumWindowComponent = (props) => {
                             <div className="flex-1">
                                 <p className="font-medium text-black">{track.name}</p>
                                 <p className="text-sm text-gray-600">
-                                    {track.artists.map(artist => artist.name).join(', ')}
+                                    {track.artists.map((artist, index) => 
+                                        {
+                                            if(index != track.artists.length-1){
+                                                return <span key={artist.id} className="text-sm text-gray-600 cursor-pointer" onClick={() => showArtist(artist.id)}>{artist.name}, </span>
+                                            }
+    
+                                            return <span key={artist.id} className="text-sm text-gray-600 cursor-pointer" onClick={() => showArtist(artist.id)}>{artist.name}</span>
+                                        })}
                                 </p>
                             </div>
                             <PlayMusicButtonComponent uri={track.uri}/>
