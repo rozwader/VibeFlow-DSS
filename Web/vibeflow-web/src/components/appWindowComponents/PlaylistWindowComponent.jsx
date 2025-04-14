@@ -18,7 +18,7 @@ const PlaylistWindowComponent = (props) => {
       Authorization: `Bearer ${token}`,
     };
 
-    const getPlaylistData  = async () => {
+    const getPlaylistData  = async () => { // wysyla zapytanie o dane danej playlisty
         try{
             const request = await fetch(`https://api.spotify.com/v1/playlists/${props.playlistId}`, {
                 headers: headers,
@@ -36,7 +36,7 @@ const PlaylistWindowComponent = (props) => {
         }
     }
 
-    const generateComponent = async () => {
+    const generateComponent = async () => { // wysyla zapytanie o 50 utworow z danej playlisty
         try{
             const request = await fetch(`https://api.spotify.com/v1/playlists/${props.playlistId}/tracks?limit=50`, {
                 headers: headers,
@@ -58,7 +58,7 @@ const PlaylistWindowComponent = (props) => {
         generateComponent();
     }, [])
     
-    if (!playlistData) {
+    if (!playlistData) { // gdy informacje nie sa zaladowane zwraca odpowiedni komunikat
         return (
             <div className="p-8 w-full text-center text-red-500">
                 Loading playlist data...

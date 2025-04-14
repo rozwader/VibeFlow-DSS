@@ -1,6 +1,6 @@
 import PlayMusicButtonComponent from "./PlayMusicButtonComponent";
 
-const TopTracksComponent = ({ topTracks, setCurrentPage }) => {
+const TopTracksComponent = ({ topTracks, setCurrentPage }) => { // wyswietla najczesciej sluchane utworzy uzytkownika
   const showArtist = (id) => {
     setCurrentPage(`artist ${id}`);
   }

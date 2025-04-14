@@ -11,14 +11,14 @@ import { FaFacebookF } from "react-icons/fa";
 const loginPage = () => {
   const router = useRouter();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => { // wywoluje sie po kliknieciu przycisku zaloguj
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const username = formData.get("Username");
     const password = formData.get("Password");
 
-    const request = await fetch("/api/auth/login/", {
+    const request = await fetch("/api/auth/login/", { // fetch wysylajacy zapytanie do lokalnego api o zaloganie uzytkownika
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),

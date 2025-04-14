@@ -1,6 +1,6 @@
 import PlayMusicButtonComponent from "./PlayMusicButtonComponent";
 
-const RecentlyPlayedComponent = ({ recentTracks, setCurrentPage }) => {
+const RecentlyPlayedComponent = ({ recentTracks, setCurrentPage }) => { // wyswietla ostatnio sluchane piosenki
   const showArtist = (id) => {
     setCurrentPage(`artist ${id}`);
   }

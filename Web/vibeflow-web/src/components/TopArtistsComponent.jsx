@@ -1,4 +1,4 @@
-const TopArtistsComponent = ({ topArtists, setCurrentPage }) => {
+const TopArtistsComponent = ({ topArtists, setCurrentPage }) => { // wyswietla ulubionych artystow uzytkownika
 
   const showSpecificArtist = (id) => {
     setCurrentPage(`artist ${id}`);

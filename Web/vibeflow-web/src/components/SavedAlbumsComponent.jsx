@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const SavedAlbumsComponent = (props) => {
+const SavedAlbumsComponent = (props) => { // wyswietla max 50 zapisanych albumow
 
     const [savedAlbums, setSavedAlbums] = useState(null);
 
@@ -11,7 +11,7 @@ const SavedAlbumsComponent = (props) => {
         if (!s_token) return;
 
         try{
-            const request = await fetch("https://api.spotify.com/v1/me/albums?limit=50", {
+            const request = await fetch("https://api.spotify.com/v1/me/albums?limit=50", { // wysyla zapytanie o 50 zapisanych albumow uzytkownika
                 headers: {
                     Authorization: `Bearer ${s_token}`,
                 },

@@ -11,7 +11,7 @@ import LoginButtonComponent from "@/components/LoginButtonComponent";
 export default function Home() {
   const router = useRouter();
 
-  const checkToken = async () => {
+  const checkToken = async () => { // funkcja sprawdzajaca czy token jest poprawny
     const token = localStorage.getItem("TOKEN");
     try {
       const request = await fetch("/api/auth/tokencheck", {
@@ -38,7 +38,7 @@ export default function Home() {
     }
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = () => { // sprawdza czy uzytkownik jest zalogowany i czy moze przejsc do aplikacji
     if (localStorage.getItem("TOKEN") != null) {
       console.log(localStorage.getItem("TOKEN"));
       router.push("/music/");

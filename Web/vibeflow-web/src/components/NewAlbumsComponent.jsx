@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const NewAlbumsComponent = (props) => {
+const NewAlbumsComponent = (props) => { // wyswietla najnowsze albumy
     
     const [newAlbums, setNewAlbums] = useState(null);
 
@@ -11,7 +11,7 @@ const NewAlbumsComponent = (props) => {
         if (!s_token) return;
 
         try{
-            const request = await fetch("https://api.spotify.com/v1/browse/new-releases?limit=20", {
+            const request = await fetch("https://api.spotify.com/v1/browse/new-releases?limit=20", { // fetch wysylajacy zapytanie o 20 najnowszych albumow
                 headers: {
                     Authorization: `Bearer ${s_token}`,
                 },
@@ -39,11 +39,11 @@ const NewAlbumsComponent = (props) => {
         </div>)
     }
 
-    const showAlbum = (id) => {
+    const showAlbum = (id) => { // po kliknieciu na album przenosi do strony o albumie
         props.setCurrentPage(`album ${id}`);
     }
 
-    const showArtist = (id) => {
+    const showArtist = (id) => { // po kliknieciu na artyste przenosi na strone artysty
         props.setCurrentPage(`artist ${id}`);
     }
 

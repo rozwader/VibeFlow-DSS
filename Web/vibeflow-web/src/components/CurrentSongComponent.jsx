@@ -1,4 +1,4 @@
-const CurrentSongComponent = (props) => {
+const CurrentSongComponent = (props) => { // zwraca zdjecie, nazwe oraz artystow aktualnie grajacej piosenki
   return (
     <div className="flex items-center gap-4 min-w-[300px]">
       <div className="relative h-16 w-16 min-w-[64px] overflow-hidden rounded">

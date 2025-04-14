@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import { BsArrowUpRight } from "react-icons/bs";
 
-const StartButtonComponent = (props) => {
+const StartButtonComponent = (props) => { // w zaleznosci od tego czy uzytkownik jest zalogowany przechodzi do strony rejerestacji lub aplikacji
   return (
     <Link href={props.destination} className="flex items-center">
       <div className="flex items-center border border-black p-2 pl-5 pr-5 hover:bg-purple-500 hover:text-white hover:border-white scale-150 transition-colors">

@@ -11,7 +11,7 @@ const AlbumWindowComponent = (props) => {
     const [albumImageUrl, setAlbumImageUrl] = useState(undefined);
     const [albumData, setAlbumData] = useState(undefined);
 
-    const getAlbumImage = async (token) => {
+    const getAlbumImage = async (token) => { // wysyla zapytanie o dane albumu
         try {
             const request = await fetch(`https://api.spotify.com/v1/albums/${props.albumId}`, {
                 headers: { Authorization: `Bearer ${token}` },
@@ -29,7 +29,7 @@ const AlbumWindowComponent = (props) => {
         }
     };
 
-    const generateComponent = async () => {
+    const generateComponent = async () => { // odpowiada za wygenerowanie 50 utworow z danego albumu
         const token = localStorage.getItem("S_TOKEN");
         if (!token) return;
 
@@ -53,7 +53,7 @@ const AlbumWindowComponent = (props) => {
         }
     };
 
-    const showArtist = (id) => {
+    const showArtist = (id) => { // po kliknieciu na nazwe artysty wyswietla jego strone
         props.setCurrentPage(`artist ${id}`);
     }
 
@@ -61,7 +61,7 @@ const AlbumWindowComponent = (props) => {
         generateComponent();
     }, []);
 
-    if (!albumImageUrl || !currentTracks || !albumData) {
+    if (!albumImageUrl || !currentTracks || !albumData) { // jesli dane nie sa zaladowane zwraca odpowiedni komunikat
         return (
             <div className="p-8 w-full text-center text-red-500">
                 Loading album data...
@@ -83,7 +83,7 @@ const AlbumWindowComponent = (props) => {
                 <div className="flex flex-col gap-2">
                     <h1 className="text-4xl font-bold text-black">{albumData.name}</h1>
                     <div className="flex items-center gap-4 text-gray-600">
-                        {albumData.artists.map((artist) => {
+                        {albumData.artists.map((artist) => { // mapuje sie przez wszystkich wykonawcow danego albumu po czym ich wyswietla
                             return <span key={artist.id} className="font-semibold cursor-pointer" onClick={() => showArtist(artist.id)}>{artist.name}</span>
                         })}
                         <span>•</span>

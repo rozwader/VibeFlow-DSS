@@ -14,7 +14,7 @@ const ArtistWindowComponent = (props) => {
     const [currentArtist, setCurrentArtist] = useState(null); 
     const [currentAlbums, setCurrentAlbums] = useState([]);
 
-    const getArtistAlbums = async (artistId) => {
+    const getArtistAlbums = async (artistId) => { // wysyla zapytanie o wszystkie albumy artysty
         try {
             const request = await fetch(`https://api.spotify.com/v1/artists/${artistId}/albums?limit=50&include_groups=album,single,compilation`, {
                 headers: headers,
@@ -30,7 +30,7 @@ const ArtistWindowComponent = (props) => {
         }
     };
 
-    const getArtist = async () => {
+    const getArtist = async () => { // wysyla zapytanie o informacje na temat danego artsty
         try {
             const request = await fetch(`https://api.spotify.com/v1/artists/${props.artistId}`, {
                 method: "GET",

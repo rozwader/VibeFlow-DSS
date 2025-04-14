@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const SliderComponent = (props) => {
+const SliderComponent = (props) => { // pokazuje w ktorym miejsciu aktualnie jest piosenka
   const [localTime, setLocalTime] = useState(props.time);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -9,7 +9,7 @@ const SliderComponent = (props) => {
     if (!isDragging) setLocalTime(props.time);
   }, [props.time, isDragging]);
 
-  const formatTime = (ms) => {
+  const formatTime = (ms) => { // formatuje milisekundy na format mm:ss
     const minutes = Math.floor(ms / 60000);
     const seconds = ((ms % 60000) / 1000).toFixed(0);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;

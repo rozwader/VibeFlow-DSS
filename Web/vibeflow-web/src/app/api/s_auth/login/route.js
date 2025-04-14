@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server"
 
-const response = (message, status) => {
+const response = (message, status) => { // skrot funkcji zwracajacej
     return NextResponse.json({
         message: message,
     }, {status: status})
 }
 
-const generateRandomString = (len) => {
+const generateRandomString = (len) => { // generuje losowe znaki dla atrybutu state ktorego wymaga spotify api
     let text = '';
     let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -16,7 +16,7 @@ const generateRandomString = (len) => {
     return text;
 }
 
-export const GET = () => {
+export const GET = () => { // endpoint GET tworzący link dzieki ktoremu mozna sie polaczyc z spotifyem
     const scope = "streaming \
     user-read-email \
     user-read-private \
@@ -31,11 +31,11 @@ export const GET = () => {
     user-top-read \
     user-read-recently-played \
     user-read-playback-state \
-    ";
+    "; // lista pozwolen na ktore musi sie zgodzic uzytkownik aby aplikacja funkcjonowala poprawnie
 
     const state = generateRandomString(16);
 
-    const auth_query_parameters = new URLSearchParams({
+    const auth_query_parameters = new URLSearchParams({ // atrybuty wymagane przez spotify
         response_type: "code",
         client_id: process.env.SPOTIFY_CLIENT_ID,
         scope: scope,

@@ -12,28 +12,14 @@ import FavoritesWindowComponent from "@/components/appWindowComponents/Favorites
 const musicPage = () => {
   const router = useRouter();
 
-  const [isConnected, setIsConnected] = useState(false);
-
-  // lista stron
-  // settings, albums, favorites, playlist, addplaylist, addsong
-
-  const pageComponents = {
-    playlists: <PlaylistsWindowComponent />,
-    home: <HomeWindowComponent />,
-    favorites: <FavoritesWindowComponent />,
-  };
-
-  const [currentPage, setCurrentPage] = useState("");
-
-  const returnPage = () => {
-    return pageComponents[currentPage];
-  };
+  const [isConnected, setIsConnected] = useState(false); // stan przechowujacy informacje o tym czy uzytkownik jest polaczony do spotify
+  const [currentPage, setCurrentPage] = useState(""); // stan przechowujący aktualnie wyswietlana strone
 
   useEffect(() => {
     console.log(currentPage);
   }, [currentPage]);
 
-  const checkToken = async () => {
+  const checkToken = async () => { // funkcja sprawdza czy lokalny token uzytkownika jest poprawny
     const token = localStorage.getItem("TOKEN");
     try {
       const request = await fetch("/api/auth/tokencheck", {
@@ -54,7 +40,7 @@ const musicPage = () => {
     }
   };
 
-  useEffect(() => {
+  useEffect(() => { // wydarzenie sprawdzajace czy uzytkownik posiada token
     if (localStorage.getItem("TOKEN") != null) {
       checkToken();
     } else {
@@ -62,7 +48,7 @@ const musicPage = () => {
     }
   }, []);
 
-  const [volume, setVolume] = useState(50);
+  const [volume, setVolume] = useState(50); // stan przechowujacy glosnosc muzyki
 
   return (
     <div className="w-screen h-screen flex flex-row">

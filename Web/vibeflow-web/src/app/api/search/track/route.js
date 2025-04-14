@@ -1,18 +1,18 @@
 import { NextResponse } from "next/server";
 
-const response = (message, status) => {
+const response = (message, status) => { // skrot funkcji zwracajacej
     return NextResponse.json({
         message: message,
     }, {status: status})
 }
 
-export const POST = async (req) => {
+export const POST = async (req) => { // endpoint POST ktory wyszukuje tresci zwiazane z zapytaniem uzytkownika
     const searchData = await req.json();
     const query = searchData.query;
     const headers = searchData.headers;
 
     try{
-        const request = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=album,artist,playlist,track,show,episode,audiobook&limit=5`, {
+        const request = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=album,artist,playlist,track,show,episode,audiobook&limit=5`, { // fetch wysylajacy zapytanie o otrzymanie tresci ze spotify z konkretnym query
             headers: headers,
             method: "GET"
         })
