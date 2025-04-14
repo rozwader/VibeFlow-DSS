@@ -21,7 +21,7 @@ const HomeWindowComponent = (props) => {
       Authorization: `Bearer ${token}`,
     };
 
-    const fetchUser = async () => {
+    const fetchUser = async () => { // wysyla zapytanie o dane uzytkownika spotify
       const res = await fetch("https://api.spotify.com/v1/me", { headers });
       if (res.ok) {
         const data = await res.json();
@@ -31,7 +31,7 @@ const HomeWindowComponent = (props) => {
       }
     };
 
-    const fetchTopTracks = async () => {
+    const fetchTopTracks = async () => { // wysyla zapytanie o 15 ulubionych piosenek uzytkownika
       const res = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=15", { headers });
       if (res.ok) {
         const data = await res.json();
@@ -41,7 +41,7 @@ const HomeWindowComponent = (props) => {
       }
     };
 
-    const fetchTopArtists = async () => {
+    const fetchTopArtists = async () => { // wysyla zapytanie o 10 ulubionych artystow uzytkownika
       const res = await fetch("https://api.spotify.com/v1/me/top/artists?limit=10", { headers });
       if (res.ok) {
         const data = await res.json();
@@ -51,7 +51,7 @@ const HomeWindowComponent = (props) => {
       }
     };
 
-    const fetchRecentTracks = async () => {
+    const fetchRecentTracks = async () => { // wysyla zapytanie o 15 ostatnio sluchanych piosenek przez uzytkownika
       const res = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=15", { headers });
       if (res.ok) {
         const data = await res.json();
@@ -61,7 +61,7 @@ const HomeWindowComponent = (props) => {
       }
     };
 
-    const fetchPlaylists = async () => {
+    const fetchPlaylists = async () => { // wysyla zapytanie o 5 playlist uzytkownika
       const res = await fetch("https://api.spotify.com/v1/me/playlists?limit=5", { headers });
       if (res.ok) {
         const data = await res.json();

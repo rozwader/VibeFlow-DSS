@@ -1,6 +1,6 @@
 import PlayMusicButtonComponent from "./PlayMusicButtonComponent"
 
-const TracksPlaylistListComponent = ({ currentTracks, showArtist }) => {
+const TracksPlaylistListComponent = ({ currentTracks, showArtist }) => {// wyswietla liste utworow odpowiednio sformatowaną pod dane otrzymywane przez spotify dla playlist
     return(
         <div className="rounded-lg p-4">
             {currentTracks.map((track, index) => (

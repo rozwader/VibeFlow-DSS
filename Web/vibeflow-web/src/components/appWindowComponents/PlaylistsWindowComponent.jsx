@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 const PlaylistsWindowComponent = () => {
   const [playlists, setPlaylists] = useState([]);
 
-  const fetchPlaylists = async () => {
+  const fetchPlaylists = async () => { // wysyla zapytanie o wszystkie playlisty uzytkownika
     const s_token = localStorage.getItem("S_TOKEN");
     if (!s_token) return;
 

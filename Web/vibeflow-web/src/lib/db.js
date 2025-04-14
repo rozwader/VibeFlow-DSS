@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise'
 
 let conn;
-export const createConn = async () => {
+export const createConn = async () => { // tworzy polaczenie z baza danych
     if(!conn){
         conn = await mysql.createConnection({
             host: process.env.DATABASE_HOST,

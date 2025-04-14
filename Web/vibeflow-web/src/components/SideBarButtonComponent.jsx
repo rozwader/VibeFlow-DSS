@@ -1,5 +1,5 @@
 
-const SideBarButtonComponent = (props) => {
+const SideBarButtonComponent = (props) => { // przycisk pozwalajacy na przelaczanie komponentow glownych
   return (
     <button
       type="button"

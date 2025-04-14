@@ -5,7 +5,7 @@ import {
   BsFillPauseFill,
 } from "react-icons/bs";
 
-const CurrentSongControllerComponent = (props) => {
+const CurrentSongControllerComponent = (props) => { // pozwala na kontrolowanie aktualnie grajacej piosenki, cofanie, pauzowanie, puszczenie kolejnej
   return (
     <div className="flex items-center justify-center gap-6 min-w-[200px]">
       <button

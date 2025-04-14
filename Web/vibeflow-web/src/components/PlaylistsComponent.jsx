@@ -1,4 +1,4 @@
-const PlaylistsComponent = ({ playlists, setCurrentPage }) => {
+const PlaylistsComponent = ({ playlists, setCurrentPage }) => { // wyswietla playlisty
 
   const handleClick = (id) => {
     setCurrentPage(`playlist ${id}`)

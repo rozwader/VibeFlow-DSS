@@ -12,7 +12,7 @@ import { FaFacebookF } from "react-icons/fa";
 const registerPage = () => {
   const router = useRouter();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => { // wywoluje sie po kliknieciu przycisku zarejestruj
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -20,7 +20,7 @@ const registerPage = () => {
     const password = formData.get("Password");
     const email = formData.get("Email");
 
-    const request = await fetch("/api/auth/register/", {
+    const request = await fetch("/api/auth/register/", { // fetch wysylajacy zapytanie o zarejestrowanie uzytkownika
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password, email }),

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BsFillPersonFill } from "react-icons/bs";
 
-const LoginButtonComponent = () => {
+const LoginButtonComponent = () => { // przycisk pozwalajacy na zalogowanie sie
   return (
     <Link
       href={`/login/`}

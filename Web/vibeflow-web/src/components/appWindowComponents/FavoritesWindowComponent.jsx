@@ -7,7 +7,7 @@ const FavoritesWindowComponent = (props) => {
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchFavoriteTracks = async () => {
+  const fetchFavoriteTracks = async () => { // wysyla zapytanie o ulubione utwory uzytkownika
     const s_token = localStorage.getItem("S_TOKEN");
     if (!s_token) return;
   
@@ -45,7 +45,7 @@ const FavoritesWindowComponent = (props) => {
     }
   };
 
-  const showArtist = (id) => {
+  const showArtist = (id) => { // pozwala na wyswietlenie danego artysty
     if (props.setCurrentPage) {
       props.setCurrentPage(`artist ${id}`);
     }
@@ -55,7 +55,7 @@ const FavoritesWindowComponent = (props) => {
     fetchFavoriteTracks();
   }, []);
 
-  if (loading) {
+  if (loading) { // gdy informacje nie sa zaladowane zwraca odpowiedni komunikat
     return (
       <div className="p-8 w-full text-red-500 text-center">
         Loading your favorite tracks...

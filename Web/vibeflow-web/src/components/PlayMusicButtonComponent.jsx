@@ -2,7 +2,7 @@
 
 import { FaPlay } from "react-icons/fa";
 
-const PlayMusicButtonComponent = (props) => {
+const PlayMusicButtonComponent = (props) => { // przycisk pozwalajacy na puszczenie muzyki na rzadanie
     const token = localStorage.getItem("S_TOKEN");
     if (!token) return null;
 
@@ -10,7 +10,7 @@ const PlayMusicButtonComponent = (props) => {
         Authorization: `Bearer ${token}`,
     };
 
-    const nextInQueue = async () => {
+    const nextInQueue = async () => { // przewija do kolejnej piosenki w kolejce
         try {
             await fetch("https://api.spotify.com/v1/me/player/next", {
                 headers: headers,
@@ -21,7 +21,7 @@ const PlayMusicButtonComponent = (props) => {
         }
     };
 
-    const addToQueue = async (uri) => {
+    const addToQueue = async (uri) => { // dodaje piosenke do kolejki
         try {
             const request = await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${uri}`, {
                 headers: headers,

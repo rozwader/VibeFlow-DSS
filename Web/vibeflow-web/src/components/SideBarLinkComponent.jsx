@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const SideBarLinkComponent = (props) => {
+const SideBarLinkComponent = (props) => { // przycisk pozwalajacy na przelaczanie sie pomiedzy stronami
   return (
     <Link
       href={props.to}

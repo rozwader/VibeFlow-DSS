@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-const response = (message, status) => {
+const response = (message, status) => { // skrot funkcji zwracajacej
     return NextResponse.json({
         message: message,
     }, {status: status})
@@ -9,24 +9,11 @@ const response = (message, status) => {
 let token = ""
 let refreshToken = ""
 
-export const GET = async (req) => {
+export const GET = async (req) => { // endpoint GET ktory jest wolany przez spotify przy łączeniu z usługą
     const code = req.url.split("code=")[1]
 
-    // const authOptions = {
-    //     form: {
-    //         code: code,
-    //         redirect_uri: "http://localhost:3000/api/s_auth/callback",
-    //         grant_type: "authorization_code",
-    //     },
-    //     headers: {
-    //         'Authorization': 'Basic ' + (Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64')),
-    //         'Content-Type' : 'application/x-www-form-urlencoded'
-    //     },
-    //     json: true,
-    // };
-
     try{
-        const request = await fetch("https://accounts.spotify.com/api/token", {
+        const request = await fetch("https://accounts.spotify.com/api/token", { // fetch wysylajacy zapytanie o otrzymanie tokenu
             method: "POST",
             headers: {
                 'Authorization': 'Basic ' + (Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64')),
@@ -52,7 +39,7 @@ export const GET = async (req) => {
     }
 }
 
-export const POST = async () => {
+export const POST = async () => { // endpoint POST zwracający nowo powstaly token oraz refreshToken
     if(token != ""){
         const payload = {
             token: token,

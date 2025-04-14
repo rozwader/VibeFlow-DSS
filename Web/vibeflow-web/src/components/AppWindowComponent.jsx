@@ -11,10 +11,10 @@ import SearchWindowComponent from "./appWindowComponents/SearchWindowComponent";
 const AppWindowComponent = (props) => {
   const [page, setPage] = useState(undefined);
 
-  const generateComponent = (component) => {
+  const generateComponent = (component) => { // "lokalny router" pozwala na latwe wyswietlanie komponentow glownych z folderu appWindowComponents 
     const pageById = component.split(" ")
     if(pageById.length > 1){
-      switch(pageById[0]){
+      switch(pageById[0]){ // pozwala na wyswietlanie stron o danym artyscie, playliscie lub albumie
         case "artist":
           setPage(<ArtistWindowComponent artistId={pageById[1]} setCurrentPage={props.setCurrentPage} />)
           break;
@@ -27,7 +27,7 @@ const AppWindowComponent = (props) => {
           break;
       }
     }else{
-      switch (component) {
+      switch (component) { // pozwala na wyswietlanie stron glownych, na ktorych sa wyswietlone albumy, playlisty, ulubione utwory jak i strona glowna
         case "playlists":
           setPage(<PlaylistsWindowComponent />);
           break;

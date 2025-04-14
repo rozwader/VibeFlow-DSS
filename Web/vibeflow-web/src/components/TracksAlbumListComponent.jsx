@@ -1,6 +1,6 @@
 import PlayMusicButtonComponent from "./PlayMusicButtonComponent"
 
-const TracksAlbumListComponent = ({ currentTracks, showArtist }) => {
+const TracksAlbumListComponent = ({ currentTracks, showArtist }) => { // wyswietla liste utworow odpowiednio sformatowaną pod dane otrzymywane przez spotify dla albumow
     return(
         <div className="rounded-lg p-4">
             {currentTracks.map((track, index) => (
