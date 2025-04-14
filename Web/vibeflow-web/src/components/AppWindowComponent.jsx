@@ -6,6 +6,7 @@ import AlbumWindowComponent from "./appWindowComponents/AlbumWindowComponent";
 import PlaylistWindowComponent from "./appWindowComponents/PlaylistWindowComponent";
 import AlbumsWindowComponent from "./appWindowComponents/AlbumsWindowComponent";
 import FavoritesWindowComponent from "./appWindowComponents/FavoritesWindowComponent";
+import SearchWindowComponent from "./appWindowComponents/SearchWindowComponent";
 
 const AppWindowComponent = (props) => {
   const [page, setPage] = useState(undefined);
@@ -38,6 +39,9 @@ const AppWindowComponent = (props) => {
           break;
         case "favorites":
           setPage(<FavoritesWindowComponent setCurrentPage={props.setCurrentPage}/>)
+          break;
+        case "search":
+          setPage(<SearchWindowComponent setCurrentPage={props.setCurrentPage}/>)
           break;
         default:
           setPage(<HomeWindowComponent setCurrentPage={props.setCurrentPage} />);

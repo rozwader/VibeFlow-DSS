@@ -13,6 +13,7 @@ import {
   BsBoxArrowRight,
   BsGearFill,
   BsGear,
+  BsSearch,
 } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import ConnectedConfComponent from "./ConnectedConfComponent";
@@ -180,6 +181,13 @@ const SideBarComponent = (props) => {
           text="Your favorites"
           action={props.setCurrentPage}
           to="favorites"
+        />
+
+        <SideBarButtonComponent
+          icon={<BsSearch />}
+          text="Search"
+          action={props.setCurrentPage}
+          to="search"
         />
 
         <span className="text-gray-600 text-sm font-semibold">
