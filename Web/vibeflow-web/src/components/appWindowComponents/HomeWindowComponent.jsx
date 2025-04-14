@@ -87,8 +87,8 @@ const HomeWindowComponent = (props) => {
       )}
       <TopArtistsComponent topArtists={topArtists} setCurrentPage={props.setCurrentPage} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
-        <TopTracksComponent topTracks={topTracks} />
-        <RecentlyPlayedComponent recentTracks={recentTracks} />
+        <TopTracksComponent topTracks={topTracks} setCurrentPage={props.setCurrentPage} />
+        <RecentlyPlayedComponent recentTracks={recentTracks} setCurrentPage={props.setCurrentPage} />
       </div>
 
       <PlaylistsComponent playlists={playlists} setCurrentPage={props.setCurrentPage} />

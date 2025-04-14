@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import PlayMusicButtonComponent from "../PlayMusicButtonComponent";
+import TracksPlaylistListComponent from "../TracksPlaylistListComponent";
 
 const PlaylistWindowComponent = (props) => {
     
@@ -60,7 +61,7 @@ const PlaylistWindowComponent = (props) => {
     if (!playlistData) {
         return (
             <div className="p-8 w-full text-center text-red-500">
-                Loading artist data...
+                Loading playlist data...
             </div>
         );
     }
@@ -91,28 +92,7 @@ const PlaylistWindowComponent = (props) => {
             </div>
             <div className="mt-8">
                 <h2 className="text-2xl font-bold mb-4 text-black">Tracks</h2>
-                <div className="rounded-lg p-4">
-                    {currentTracks.map((track, index) => (
-                        <div key={track.track.id} className="flex items-center py-2 border-b last:border-b-0">
-                            <span className="w-8 text-gray-500">{index + 1}</span>
-                            <div className="flex-1">
-                                <p className="font-medium text-black">{track.track.name}</p>
-                                {track.track.artists.map((artist, index) => 
-                                    {
-                                        if(index != track.track.artists.length-1){
-                                            return <span key={artist.id} className="text-sm text-gray-600 cursor-pointer" onClick={() => showArtist(artist.id)}>{artist.name}, </span>
-                                        }
-
-                                        return <span key={artist.id} className="text-sm text-gray-600 cursor-pointer" onClick={() => showArtist(artist.id)}>{artist.name}</span>
-                                    })}
-                            </div>
-                            <PlayMusicButtonComponent uri={track.track.uri}/>
-                            <span className="text-gray-500">
-                                {new Date(track.track.duration_ms).toISOString().slice(14, 19)}
-                            </span>
-                        </div>
-                    ))}
-                </div>
+                <TracksPlaylistListComponent showArtist={showArtist} currentTracks={currentTracks}/>
             </div>
         </div>
     );
