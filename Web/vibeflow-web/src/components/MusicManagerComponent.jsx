@@ -45,6 +45,30 @@ const MusicManagerComponent = (props) => {
     }
   };
 
+  const connectToSpotify = () => {
+    const newPlayer = new window.Spotify.Player({
+      name: "VibeFlow",
+      getOAuthToken: (cb) => cb(localStorage.getItem("S_TOKEN")),
+      volume: props.volume / 100,
+    });
+
+    newPlayer.addListener("ready", ({ device_id }) => {
+      console.log("Ready with Device ID", device_id);
+    });
+
+    newPlayer.addListener("player_state_changed", (state) => {
+      if (!state) return;
+      
+      setTrack(state.track_window.current_track);
+      setPaused(state.paused);
+      setCurrentTrackDuration(state.duration);
+      setCurrentTrackTime(state.position);
+    });
+
+    newPlayer.connect();
+    setPlayer(newPlayer);
+  }
+
   useEffect(() => {
     if (!executed && props.connected) {
       const script = document.createElement("script");
@@ -53,27 +77,7 @@ const MusicManagerComponent = (props) => {
       document.body.appendChild(script);
 
       window.onSpotifyWebPlaybackSDKReady = () => {
-        const newPlayer = new window.Spotify.Player({
-          name: "Web Playback SDK",
-          getOAuthToken: (cb) => cb(localStorage.getItem("S_TOKEN")),
-          volume: props.volume / 100,
-        });
-
-        newPlayer.addListener("ready", ({ device_id }) => {
-          console.log("Ready with Device ID", device_id);
-        });
-
-        newPlayer.addListener("player_state_changed", (state) => {
-          if (!state) return;
-          
-          setTrack(state.track_window.current_track);
-          setPaused(state.paused);
-          setCurrentTrackDuration(state.duration);
-          setCurrentTrackTime(state.position);
-        });
-
-        newPlayer.connect();
-        setPlayer(newPlayer);
+        connectToSpotify();
       };
 
       setExecuted(true);
@@ -102,8 +106,8 @@ const MusicManagerComponent = (props) => {
         />
       </div>
 
-      <div className="flex-1 flex items-center justify-center pt-4">
-        <div className="w-full max-w-6xl flex items-center justify-between px-6 gap-8">
+      <div className="flex-1 flex items-center justify-center">
+        <div className="w-full max-w-6xl flex items-center justify-center px-6 gap-2">
           <CurrentSongComponent
             img={current_track.album.images[0]?.url}
             name={current_track.name}

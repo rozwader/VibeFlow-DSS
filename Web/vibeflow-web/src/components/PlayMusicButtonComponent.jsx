@@ -43,7 +43,7 @@ const PlayMusicButtonComponent = (props) => {
     return (
         <button
             type="button"
-            className="cursor-pointer mr-[30px] border border-[#1DB954] p-2 shadow-md bg-[#1DB954] text-white rounded-full hover:bg-white hover:text-black hover:border-black transition"
+            className="cursor-pointer mr-[30px] border border-[#ac46fe] p-2 shadow-md bg-[#ac46fe] text-white rounded-full hover:bg-white hover:text-black hover:border-black transition"
             onClick={() => addToQueue(props.uri)}
             aria-label="Play"
         >
