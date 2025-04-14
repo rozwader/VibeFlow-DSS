@@ -8,6 +8,7 @@ import MusicManagerComponent from "@/components/MusicManagerComponent";
 import SearchComponent from "@/components/SearchComponent";
 import PlaylistsWindowComponent from "@/components/appWindowComponents/PlaylistsWindowComponent";
 import HomeWindowComponent from "@/components/appWindowComponents/HomeWindowComponent";
+import FavoritesWindowComponent from "@/components/appWindowComponents/FavoritesWindowComponent";
 
 const musicPage = () => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const musicPage = () => {
   const pageComponents = {
     playlists: <PlaylistsWindowComponent />,
     home: <HomeWindowComponent />,
+    favorites: <FavoritesWindowComponent />,
   };
 
   const [currentPage, setCurrentPage] = useState("");
