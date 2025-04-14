@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import SideBarComponent from "@/components/SideBarComponent";
 import AppWindowComponent from "@/components/AppWindowComponent";
 import MusicManagerComponent from "@/components/MusicManagerComponent";
-import SearchComponent from "@/components/SearchComponent";
 import PlaylistsWindowComponent from "@/components/appWindowComponents/PlaylistsWindowComponent";
 import HomeWindowComponent from "@/components/appWindowComponents/HomeWindowComponent";
 import FavoritesWindowComponent from "@/components/appWindowComponents/FavoritesWindowComponent";
@@ -78,10 +77,7 @@ const musicPage = () => {
       <div className="w-7/8 flex flex-col">
         <div className="flex-1 overflow-y-auto">
           <div className="p-4 space-y-8">
-            <div className="mb-8">
-              <SearchComponent />
-            </div>
-              {isConnected ? (<AppWindowComponent currentPage={currentPage} setCurrentPage={setCurrentPage} />) : (null)}
+            {isConnected ? (<AppWindowComponent currentPage={currentPage} setCurrentPage={setCurrentPage} />) : (null)}
           </div>
         </div>
         <div className="h-[100px] bg-[#252525]">
