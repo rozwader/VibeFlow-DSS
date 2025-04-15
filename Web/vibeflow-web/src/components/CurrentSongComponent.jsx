@@ -11,7 +11,7 @@ const CurrentSongComponent = (props) => { // zwraca zdjecie, nazwe oraz artystow
         )}
       </div>
       <div className="overflow-hidden">
-        <div className="text-white font-medium truncate">{props.name || "No track playing"}</div>
+        <div className="text-white font-medium truncate">{props.name || "Connect To Vibeflow On Spotify"}</div>
         <div className="text-gray-400 text-sm truncate">
           {props.artists?.map((artist, i) => (
             <span key={i}>

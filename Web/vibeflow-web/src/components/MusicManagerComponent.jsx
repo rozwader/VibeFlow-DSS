@@ -87,6 +87,12 @@ const MusicManagerComponent = (props) => {
   }, [props.connected]);
 
   useEffect(() => {
+    if(!props.connected){
+      setPlayer(null);
+    }
+  })
+
+  useEffect(() => {
     player?.setVolume(props.volume / 100);
   }, [props.volume, player]);
 

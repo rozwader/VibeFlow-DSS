@@ -12,7 +12,7 @@ export const POST = async (req) => { // endpoint POST ktory wyszukuje tresci zwi
     const headers = searchData.headers;
 
     try{
-        const request = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=album,artist,playlist,track,show,episode,audiobook&limit=5`, { // fetch wysylajacy zapytanie o otrzymanie tresci ze spotify z konkretnym query
+        const request = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=album,artist,playlist,track,show,episode,audiobook&limit=20`, { // fetch wysylajacy zapytanie o otrzymanie tresci ze spotify z konkretnym query
             headers: headers,
             method: "GET"
         })
