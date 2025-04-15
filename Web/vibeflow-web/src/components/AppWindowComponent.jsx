@@ -29,8 +29,8 @@ const AppWindowComponent = (props) => {
     }else{
       switch (component) { // pozwala na wyswietlanie stron glownych, na ktorych sa wyswietlone albumy, playlisty, ulubione utwory jak i strona glowna
         case "playlists":
-          setPage(<PlaylistsWindowComponent />);
-          break;
+          setPage(<PlaylistsWindowComponent setCurrentPage={props.setCurrentPage} />);
+          break;        
         case "home":
           setPage(<HomeWindowComponent setCurrentPage={props.setCurrentPage} />);
           break;
