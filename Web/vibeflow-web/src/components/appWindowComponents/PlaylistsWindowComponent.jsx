@@ -1,53 +1,63 @@
-"use client";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
-import { useState, useEffect } from "react";
-
-const PlaylistsWindowComponent = () => {
+const PlaylistsWindowComponent = ({ setCurrentPage }) => {
+  const token = localStorage.getItem("S_TOKEN");
   const [playlists, setPlaylists] = useState([]);
 
-  const fetchPlaylists = async () => { // wysyla zapytanie o wszystkie playlisty uzytkownika
-    const s_token = localStorage.getItem("S_TOKEN");
-    if (!s_token) return;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
-    const res = await fetch("https://api.spotify.com/v1/me/playlists", {
-      headers: {
-        Authorization: `Bearer ${s_token}`,
-      },
-      method: "GET",
-    });
+  const getPlaylists = async () => {// wysyla zapytanie o wszystkie playlisty uzytkownika
+    try {
+      const request = await fetch("https://api.spotify.com/v1/me/playlists?limit=50", {
+        headers: headers,
+      });
 
-    if (res.ok) {
-      const data = await res.json();
-      console.log(data);
-      setPlaylists(data.items);
-    } else {
-      console.error("Błąd pobierania playlist:", await res.text());
+      if (request.ok) {
+        const data = await request.json();
+        setPlaylists(data.items);
+      }
+    } catch (err) {
+      console.log("Błąd pobierania playlist:", err);
     }
   };
 
   useEffect(() => {
-    fetchPlaylists();
+    getPlaylists();
   }, []);
 
+  const handleClick = (id) => {
+    setCurrentPage(`playlist ${id}`);
+  };
+
   return (
-    <div className="p-4">
-    <h2 className="text-xl font-semibold mb-4 text-white">Your Playlists</h2>
-    <div className="flex overflow-x-auto gap-4 pb-4">
-      {playlists.map((playlist) => (
-        <div key={playlist.id} className="flex-shrink-0 w-40">
-          <div className="bg-[#181818] p-3 rounded">
-            <img
-              src={playlist.images[0]?.url || '/default-playlist.png'}
-              className="w-full aspect-square object-cover mb-2 rounded"
-              alt={playlist.name}
-            />
-            <p className="text-white font-medium truncate text-sm">{playlist.name}</p>
-            <p className="text-gray-400 text-xs">{playlist.tracks.total} tracks</p>
+    <div className="p-8 w-full space-y-8">
+      <h1 className="text-2xl font-bold text-black">Twoje playlisty</h1>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        {playlists.map((playlist) => (
+          <div
+            key={playlist.id}
+            className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+            onClick={() => handleClick(playlist.id)}
+          >
+            <div className="relative aspect-square">
+              <Image
+                src={playlist.images[0]?.url || "/placeholder.jpg"}
+                alt={playlist.name}
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <div className="p-3">
+              <h3 className="font-semibold text-black truncate">{playlist.name}</h3>
+              <p className="text-sm text-gray-600">{playlist.tracks.total} utworów</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
   );
 };
 
