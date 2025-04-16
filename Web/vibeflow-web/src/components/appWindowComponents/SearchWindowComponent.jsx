@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsSearch } from "react-icons/bs";
 
 import { BsFillHeartFill, BsPerson } from "react-icons/bs";
@@ -8,12 +8,7 @@ import TracksAlbumListComponent from "../TracksAlbumListComponent";
 const SearchWindowComponent = (props) => {
     const [queryResponse, setQueryResponse] = useState(null);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const formData = new FormData(event.currentTarget);
-        const query = formData.get("searchQuery");
-
+    const handleRequest = async (query) => {
         const token = localStorage.getItem("S_TOKEN");
         if (!token) return;
 
@@ -32,12 +27,23 @@ const SearchWindowComponent = (props) => {
             const data = await request.json();
             console.log(data.message);
             setQueryResponse(data.message);
+            localStorage.setItem("lastQuery", query);
         }else{
 
         }
         } catch (err) {
         console.log(`Couldn't resolve query | ${err}`);
         }
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+        const query = formData.get("searchQuery");
+
+        await handleRequest(query);
+        
     };
 
     const showArtist = (id) => {
@@ -51,6 +57,12 @@ const SearchWindowComponent = (props) => {
     const showPlaylist = (id) => {
         props.setCurrentPage(`playlist ${id}`);
     }
+
+    useEffect(() => {
+        if(localStorage.getItem("lastQuery") != null){
+            handleRequest(localStorage.getItem("lastQuery"));
+        }
+    }, [])
 
     return (
         <div>

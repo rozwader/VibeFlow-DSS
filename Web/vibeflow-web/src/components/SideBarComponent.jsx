@@ -170,10 +170,10 @@ const SideBarComponent = (props) => {
           to="home"
         />
         <SideBarButtonComponent
-          icon={<BsRecordCircle />}
-          text="Albums"
+          icon={<BsSearch />}
+          text="Search"
           action={props.setCurrentPage}
-          to="albums"
+          to="search"
         />
         <SideBarButtonComponent
           icon={<BsFillHeartFill />}
@@ -181,23 +181,22 @@ const SideBarComponent = (props) => {
           action={props.setCurrentPage}
           to="favorites"
         />
-
         <SideBarButtonComponent
-          icon={<BsSearch />}
-          text="Search"
+          icon={<BsRecordCircle />}
+          text="Albums"
           action={props.setCurrentPage}
-          to="search"
+          to="albums"
         />
-
-        <span className="text-gray-600 text-sm font-semibold">
-          Playlists
-        </span>
         <SideBarButtonComponent
           icon={<BsMusicNoteList />}
           text="Your playlists"
           action={props.setCurrentPage}
           to="playlists"
         />
+        <span className="text-gray-600 text-sm font-semibold">
+          Playlists
+        </span>
+
         <SideBarButtonComponent
           icon={<BsFolderPlus />}
           text="Add playlist"
