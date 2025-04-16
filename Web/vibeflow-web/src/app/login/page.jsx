@@ -7,6 +7,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { BsFillLockFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
+import { signIn } from "next-auth/react";
 
 const loginPage = () => {
   const router = useRouter();
@@ -91,8 +92,8 @@ const loginPage = () => {
             </div>
 
             <div className="flex flex-col gap-3">
-              <button
-                type="button"
+            <button
+                onClick={() => signIn("google", { callbackUrl: "/music" })}
                 className="flex items-center justify-center gap-3 border border-gray-300 rounded py-2 hover:bg-gray-100 transition-colors"
               >
                 <FcGoogle className="text-xl" />

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import SideBarComponent from "@/components/SideBarComponent";
 import AppWindowComponent from "@/components/AppWindowComponent";
 import MusicManagerComponent from "@/components/MusicManagerComponent";
@@ -11,6 +12,9 @@ import FavoritesWindowComponent from "@/components/appWindowComponents/Favorites
 
 const musicPage = () => {
   const router = useRouter();
+
+  //ZMIENNA OD SESJI
+  // const { data: session, status } = useSession();
 
   const [isConnected, setIsConnected] = useState(false); // stan przechowujacy informacje o tym czy uzytkownik jest polaczony do spotify
   const [currentPage, setCurrentPage] = useState(""); // stan przechowujący aktualnie wyswietlana strone
@@ -47,6 +51,20 @@ const musicPage = () => {
       router.push("/");
     }
   }, []);
+
+  //TU JEST USE EFFECT KTÓRY SPRAWDZA DODATKOWO CZY ZALOGOWANO PRZEZ GOOGLE
+
+  // useEffect(() => {
+  //   const localToken = localStorage.getItem("TOKEN");
+
+  //   if (session || localToken) {
+  //     if (localToken) {
+  //       checkToken();
+  //     }
+  //   } else if (status === "unauthenticated") {
+  //     router.push("/");
+  //   }
+  // }, [session, status]);
 
   const [volume, setVolume] = useState(50); // stan przechowujacy glosnosc muzyki
 
