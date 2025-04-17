@@ -13,8 +13,7 @@ import FavoritesWindowComponent from "@/components/appWindowComponents/Favorites
 const musicPage = () => {
   const router = useRouter();
 
-  //ZMIENNA OD SESJI
-  // const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
 
   const [isConnected, setIsConnected] = useState(false); // stan przechowujacy informacje o tym czy uzytkownik jest polaczony do spotify
   const [currentPage, setCurrentPage] = useState(""); // stan przechowujący aktualnie wyswietlana strone
@@ -45,27 +44,22 @@ const musicPage = () => {
   };
 
   useEffect(() => { // wydarzenie sprawdzajace czy uzytkownik posiada token
-    if (localStorage.getItem("TOKEN") != null) {
-      checkToken();
-    } else {
+    const localToken = localStorage.getItem("TOKEN");
+
+    if (session || localToken) {
+      if (localToken) {
+        checkToken();
+      }
+  
+      if (session?.user) {
+        console.log("Zalogowany przez Google:");
+        console.log("Imię/Nazwa:", session.user.name);
+        console.log("Email:", session.user.email);
+      }
+    } else if (status === "unauthenticated") {
       router.push("/");
     }
-  }, []);
-
-  //TU JEST USE EFFECT KTÓRY SPRAWDZA DODATKOWO CZY ZALOGOWANO PRZEZ GOOGLE
-
-  // useEffect(() => {
-  //   const localToken = localStorage.getItem("TOKEN");
-
-  //   if (session || localToken) {
-  //     if (localToken) {
-  //       checkToken();
-  //     }
-  //   } else if (status === "unauthenticated") {
-  //     router.push("/");
-  //   }
-  // }, [session, status]);
-
+  }, [session, status]);
   const [volume, setVolume] = useState(50); // stan przechowujacy glosnosc muzyki
 
   return (
