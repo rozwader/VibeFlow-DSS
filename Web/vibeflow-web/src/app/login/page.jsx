@@ -1,17 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import vibeflowlogo from "../../../public/vibeflowlogo.png";
 import Image from "next/image";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsFillLockFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
-import { signIn } from "next-auth/react";
 
 const loginPage = () => {
   const router = useRouter();
-
   const handleSubmit = async (event) => { // wywoluje sie po kliknieciu przycisku zaloguj
     event.preventDefault();
 
@@ -33,6 +32,13 @@ const loginPage = () => {
     } else {
       const message = await request.json();
       console.log(message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const result = await signIn("google", { callbackUrl: "/music" });
+    if (result?.error) {
+      console.error(result.error);
     }
   };
 
@@ -93,7 +99,7 @@ const loginPage = () => {
 
             <div className="flex flex-col gap-3">
             <button
-                onClick={() => signIn("google", { callbackUrl: "/music" })}
+                onClick={handleGoogleSignIn}
                 className="flex items-center justify-center gap-3 border border-gray-300 rounded py-2 hover:bg-gray-100 transition-colors"
               >
                 <FcGoogle className="text-xl" />

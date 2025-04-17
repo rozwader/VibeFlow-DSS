@@ -1,5 +1,6 @@
 "use client";
 
+import { signOut } from "next-auth/react";
 import vibeflowlogo from "../../public/vibeflowlogo.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,6 +25,7 @@ const SideBarComponent = (props) => {
   const handleLogout = () => {
     props.setConnected(false);
     localStorage.clear();
+    signOut({ redirect: false });
   };
 
   const getLoginToSpotify = async () => {
