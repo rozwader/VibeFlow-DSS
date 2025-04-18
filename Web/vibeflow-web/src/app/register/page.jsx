@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import vibeflowlogo from "../../../public/vibeflowlogo.png";
 import Image from "next/image";
 import { BsFillPersonFill } from "react-icons/bs";
+import { signIn } from "next-auth/react";
 import { BsFillLockFill } from "react-icons/bs";
 import { BsEnvelopeFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
@@ -11,6 +12,10 @@ import { FaFacebookF } from "react-icons/fa";
 
 const registerPage = () => {
   const router = useRouter();
+
+  const handleGoogleRegister = async () => {
+    await signIn("google", { callbackUrl: "/music" });
+  };
 
   const handleSubmit = async (event) => { // wywoluje sie po kliknieciu przycisku zarejestruj
     event.preventDefault();
@@ -111,6 +116,7 @@ const registerPage = () => {
             <div className="flex flex-col gap-3">
               <button
                 type="button"
+                onClick={handleGoogleRegister}
                 className="flex items-center justify-center gap-3 border border-gray-300 rounded py-2 hover:bg-gray-100 transition-colors"
               >
                 <FcGoogle className="text-xl" />
