@@ -198,7 +198,18 @@ const SideBarComponent = (props) => {
         <span className="text-gray-600 text-sm font-semibold">
           Playlists
         </span>
-
+        <SideBarButtonComponent
+          icon={<BsFolderPlus />}
+          text="Upload File"
+          action={props.setCurrentPage}
+          to="upload"
+        />
+        <SideBarButtonComponent
+          icon={<BsFolderPlus />}
+          text="Uploaded Files"
+          action={props.setCurrentPage}
+          to="files"
+        />
         <SideBarButtonComponent
           icon={<BsFolderPlus />}
           text="Add playlist"
