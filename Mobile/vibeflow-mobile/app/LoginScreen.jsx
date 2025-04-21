@@ -13,7 +13,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import vibeflowlogo from "../assets/images/vibeflowlogo.png";
 
-export default function registerScreen() {
+export default function loginScreen() {
   const handleSubmit = () => {
     console.log("Submit");
   };
