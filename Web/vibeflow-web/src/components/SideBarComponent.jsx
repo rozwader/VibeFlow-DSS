@@ -164,7 +164,7 @@ const SideBarComponent = (props) => {
         <Image src={vibeflowlogo} alt="VibeFlow Logo" className="w-36" />
       </div>
       <nav className="space-y-1" id="navbar">
-        <span className="text-gray-600 text-sm font-semibold">Menu</span>
+        <span className="text-gray-600 text-sm font-semibold">Spotify Menu</span>
         <SideBarButtonComponent
           icon={<BsFillHouseDoorFill />}
           text="Home"
@@ -196,33 +196,38 @@ const SideBarComponent = (props) => {
           to="playlists"
         />
         <span className="text-gray-600 text-sm font-semibold">
-          Playlists
+          VibeFlow Uploads
         </span>
+        <SideBarButtonComponent
+          icon={<BsFolderPlus />}
+          text="Community Uploads"
+          action={props.setCurrentPage}
+          to="files"
+        />
+        <SideBarButtonComponent
+          icon={<BsFolderPlus />}
+          text="Your Uploads"
+          action={props.setCurrentPage}
+          to="userfiles"
+        />
+        <SideBarButtonComponent
+          icon={<BsFolderPlus />}
+          text="Community Playlists"
+          action={props.setCurrentPage}
+          to="communityplaylists"
+        />
+        <SideBarButtonComponent
+          icon={<BsFolderPlus />}
+          text="Your Playlists"
+          action={props.setCurrentPage}
+          to="userplaylists"
+        />
         <SideBarButtonComponent
           icon={<BsFolderPlus />}
           text="Upload File"
           action={props.setCurrentPage}
           to="upload"
         />
-        <SideBarButtonComponent
-          icon={<BsFolderPlus />}
-          text="Uploaded Files"
-          action={props.setCurrentPage}
-          to="files"
-        />
-        <SideBarButtonComponent
-          icon={<BsFolderPlus />}
-          text="Add playlist"
-          action={props.setCurrentPage}
-          to="addplaylist"
-        />
-        <SideBarButtonComponent
-          icon={<BsFolderPlus />}
-          text="Add song"
-          action={props.setCurrentPage}
-          to="addsong"
-        />
-
         <span className="text-gray-600 text-sm font-semibold">General</span>
         <Link
           href="/"
