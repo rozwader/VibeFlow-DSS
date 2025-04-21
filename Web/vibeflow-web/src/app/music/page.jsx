@@ -55,6 +55,7 @@ const musicPage = () => {
         console.log("Zalogowany przez Google:");
         console.log("Imię/Nazwa:", session.user.name);
         console.log("Email:", session.user.email);
+        localStorage.setItem("User", session.user.name);
       }
     } else if (status === "unauthenticated") {
       router.push("/");

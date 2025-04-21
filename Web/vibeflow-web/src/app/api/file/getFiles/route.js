@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
+import { createConn } from '@/lib/db';
 
 const response = (message, status) => { // funkcja skracająca wiadomosc zwrotna od api
     return NextResponse.json({

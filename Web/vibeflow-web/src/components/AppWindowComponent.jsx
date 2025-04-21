@@ -9,6 +9,9 @@ import FavoritesWindowComponent from "./appWindowComponents/FavoritesWindowCompo
 import SearchWindowComponent from "./appWindowComponents/SearchWindowComponent";
 import UploadFileWindowComponent from "./appWindowComponents/UploadFileWindowComponent";
 import UploadedFilesWindowComponent from "./appWindowComponents/UploadedFilesWindowComponent";
+import UserFilesWindowComponent from "./appWindowComponents/UserFilesWindowComponent";
+import CommunityPlaylistsWindowComponent from "./appWindowComponents/CommunityPlaylistsWindowComponent";
+import OwnPlaylistWindowComponent from "./appWindowComponents/OwnPlaylistWindowComponent";
 
 const AppWindowComponent = (props) => {
   const [page, setPage] = useState(undefined);
@@ -50,6 +53,15 @@ const AppWindowComponent = (props) => {
           break;
         case "files":
           setPage(<UploadedFilesWindowComponent />);
+          break;
+        case "userfiles":
+          setPage(<UserFilesWindowComponent />);
+          break;
+        case "communityplaylists":
+          setPage(<CommunityPlaylistsWindowComponent />);
+          break;
+        case "userplaylists":
+          setPage(<OwnPlaylistWindowComponent />);
           break;
         default:
           setPage(<HomeWindowComponent setCurrentPage={props.setCurrentPage} />);

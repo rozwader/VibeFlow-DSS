@@ -82,7 +82,7 @@ const HomeWindowComponent = (props) => {
     <div className="p-8 w-full space-y-12">
       {user && (
         <div className="text-3xl font-bold text-black mb-4">
-          Welcome, {user.display_name} 👋
+          Welcome, {localStorage.getItem("User")} 👋
         </div>
       )}
       <TopArtistsComponent topArtists={topArtists} setCurrentPage={props.setCurrentPage} />
