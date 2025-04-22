@@ -23,26 +23,35 @@ const registerPage = () => {
       console.error(result.error);
     }
   };
-  
 
   const handleSubmit = async (event) => { // wywoluje sie po kliknieciu przycisku zarejestruj
     event.preventDefault();
-
+  
     const formData = new FormData(event.currentTarget);
     const username = formData.get("Username");
     const password = formData.get("Password");
     const email = formData.get("Email");
-
-    const request = await fetch("/api/auth/register/", { // fetch wysylajacy zapytanie o zarejestrowanie uzytkownika
+  
+    const registerRequest = await fetch("/api/auth/register/", { // fetch wysylajacy zapytanie o zarejestrowanie uzytkownika
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password, email }),
     });
-
-    if (request.ok) {
-      router.push("/login");
+  
+    if (registerRequest.ok) {
+      const emailRequest = await fetch("/api/send-email", { // fetch wysylajacy email
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, username }),
+      });
+  
+      if (emailRequest.ok) {
+        router.push("/login");
+      } else {
+        console.error("Failed to send welcome email");
+      }
     } else {
-      const message = await request.json();
+      const message = await registerRequest.json();
       console.log(message);
     }
   };
