@@ -16,6 +16,14 @@ const registerPage = () => {
   const handleGoogleRegister = async () => {
     await signIn("google", { callbackUrl: "/music" });
   };
+  
+  const handleFacebookSignIn = async () => {
+    const result = await signIn("facebook", { callbackUrl: "/music" });
+    if (result?.error) {
+      console.error(result.error);
+    }
+  };
+  
 
   const handleSubmit = async (event) => { // wywoluje sie po kliknieciu przycisku zarejestruj
     event.preventDefault();
@@ -124,6 +132,7 @@ const registerPage = () => {
               </button>
               <button
                 type="button"
+                onClick={handleFacebookSignIn}
                 className="flex items-center justify-center gap-3 border border-gray-300 rounded py-2 hover:bg-gray-100 transition-colors"
               >
                 <FaFacebookF className="text-blue-600 text-xl" />

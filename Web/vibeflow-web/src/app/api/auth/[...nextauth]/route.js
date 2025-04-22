@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
 import { createConn } from "@/lib/db";
 
 export const authOptions = {
@@ -8,22 +9,28 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    }),
   ],
   callbacks: {
     async jwt({ token, account }) {
-      if (account?.provider === "google") {
-        const db = await createConn();
+      const db = await createConn();
+
+      if (account?.provider === "google" || account?.provider === "facebook") {
+        const provider = account.provider;
         const [existingUser] = await db.query(
-          `SELECT id FROM users WHERE email = ? AND provider = 'google'`,
-          [token.email]
+          `SELECT id FROM users WHERE email = ? AND provider = ?`,
+          [token.email, provider]
         );
 
         if (existingUser.length === 0) {
           const now = new Date().toISOString().slice(0, 19).replace("T", " ");
           await db.query(
             `INSERT INTO users (username, email, password, provider, createdAt)
-             VALUES (?, ?, NULL, 'google', ?)`,
-            [token.name || token.email, token.email, now]
+             VALUES (?, ?, NULL, ?, ?)`,
+            [token.name || token.email, token.email, provider, now]
           );
         }
       }

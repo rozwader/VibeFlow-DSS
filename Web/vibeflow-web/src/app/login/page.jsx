@@ -41,6 +41,14 @@ const loginPage = () => {
       console.error(result.error);
     }
   };
+  
+  const handleFacebookSignIn = async () => {
+    const result = await signIn("facebook", { callbackUrl: "/music" });
+    if (result?.error) {
+      console.error(result.error);
+    }
+  };
+  
 
   return (
     <>
@@ -107,6 +115,7 @@ const loginPage = () => {
               </button>
               <button
                 type="button"
+                onClick={handleFacebookSignIn}
                 className="flex items-center justify-center gap-3 border border-gray-300 rounded py-2 hover:bg-gray-100 transition-colors"
               >
                 <FaFacebookF className="text-blue-600 text-xl" />
