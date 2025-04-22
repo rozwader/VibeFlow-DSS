@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const CreatePlaylistComponent = () => {
+const CreatePlaylistComponent = (props) => {
 
     const [response, setResponse] = useState("");
     const [error, setError] = useState("");
@@ -20,11 +20,13 @@ const CreatePlaylistComponent = () => {
 
             if(!request.ok){
                 const data = await request.json();
-                console.log(data.message);
                 setError(data.message);
+                setResponse("");
             }else{
                 const data = await request.json();
                 setResponse(data.message);
+                setError("");
+                props.refresh();
             }
         }catch(err){
             console.log(`Couldn't create a playlist | ${err}`)

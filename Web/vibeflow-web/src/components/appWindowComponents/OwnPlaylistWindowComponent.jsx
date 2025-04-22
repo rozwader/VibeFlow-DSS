@@ -32,6 +32,7 @@ const OwnPlaylistWindowComponent = () => {
             if(request.ok){
                 const data = await request.json();
                 setPlaylistsData(data.message[0]);
+                console.log("playlist Data", data.message[0])
                 getPlaylistsTracks(data.message[0]);
             }
         }catch(err){
@@ -60,20 +61,66 @@ const OwnPlaylistWindowComponent = () => {
         getPlaylists();
     }, [])
 
+    const handleRemove = async (e, pId, sId) => {
+        e.preventDefault();
+
+        let contentId = 0;
+
+        playlistsData.forEach((element) => {
+            if(element.fileId == sId && element.playlistId == pId){
+                contentId = element.id;
+            }
+        });
+
+        try{
+            const request = await fetch("/api/file/removeFromPlaylist/", {
+                method: "POST",
+                body: JSON.stringify({contentId})
+            })
+
+            if(request.ok){
+                console.log("successfully removed from playlist");
+                await getPlaylistsData();
+            }else{
+                console.log("not removed from playlist");
+            }
+        }catch(err){
+            console.log(`Couldn't remove from playlist | ${err}`);
+        }
+    }
+
+    const handleRemovePlaylist = async (e, id) => {
+        e.preventDefault();
+
+        try{
+            const request = await fetch("/api/file/removePlaylist/", {
+                method: "POST",
+                body: JSON.stringify({id}),
+            })
+
+            if(request.ok){
+                await getPlaylists();
+            }
+        }catch(err){
+            console.log(`Couldn't delete playlist | ${err}`);
+        }
+    }
+
     return(
         <div className="p-8 flex flex-col gap-2">
             <h1 className="text-3xl font-bold text-black mb-4">Community Playlists</h1>
-            <CreatePlaylistComponent />
+            <CreatePlaylistComponent refresh={getPlaylists}/>
             <div className="flex flex-row gap-2">
                 {playlists != null ? (playlists.map((playlist) => {
                     if(playlist.creator == localStorage.getItem("User")){
                         return <div key={playlist.id} className="flex flex-col p-2 border rounded-xl">
-                            <span className="text-xl font-semibold">{playlist.name}</span>
+                            <span className="text-xl font-semibold flex flex-row items-center justify-between">{playlist.name}<button type="button" className="bg-red-500 w-7 h-7 text-sm text-white rounded-xl cursor-pointer hover:bg-white hover:text-black hover:border" onClick={(e) => handleRemovePlaylist(e, playlist.id)}>X</button></span>
                             <span className="text-gray-500 mb-2">{playlist.creator}</span>
-                            <div className="p-2 border rounded-xl">{playlistsTracks != null ? (playlistsTracks.map((track) => {
+                            <div className="p-2 border rounded-xl">
+                            {playlistsTracks != null ? (playlistsTracks.map((track) => {
                                 if(track[1] == playlist.id){
                                     return <div key={track[0].fileName} className="flex flex-col gap-1">
-                                        <span className="text-2xl font-semibold border p-2 rounded-xl">{track[0].name}</span>
+                                        <span className="text-2xl font-semibold border p-2 rounded-xl flex flex-row items-center justify-between">{track[0].name}<button type="button" className="bg-red-500 w-7 h-7 text-sm text-white rounded-xl cursor-pointer hover:bg-white hover:text-black hover:border" onClick={(e) => handleRemove(e, playlist.id, track[0].id)}>X</button></span>
                                         <audio controls>
                                             <source src={`/uploads/${track[0].fileName}`} type="audio/mpeg"/>
                                         </audio>
