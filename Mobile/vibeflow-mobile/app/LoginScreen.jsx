@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -12,10 +12,36 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import vibeflowlogo from "../assets/images/vibeflowlogo.png";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function loginScreen() {
-  const handleSubmit = () => {
-    console.log("Submit");
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const router = useRouter();
+
+  const handleSubmit = async () => {
+    try{
+      const request = await fetch("http://192.168.1.220:3000/api/auth/login/", { // fetch wysylajacy zapytanie do lokalnego api o zaloganie uzytkownika
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      if (request.ok) {
+        const data = await request.json();
+        await AsyncStorage.setItem("TOKEN", data.message);
+        await AsyncStorage.setItem("User", username);
+        router.push('/MusicScreen/')
+      } else {
+        const message = await request.json();
+        console.log(message);
+      }
+    }catch(err){
+      console.log(`Couldn't log in | ${err}`)
+    }
   };
 
   return (
@@ -36,7 +62,7 @@ export default function loginScreen() {
                 color="gray"
                 style={styles.icon}
               />
-              <TextInput style={styles.input} placeholder="Enter Your Name" />
+              <TextInput style={styles.input} placeholder="Enter Your Name" onChangeText={text => setUsername(text)} />
             </View>
           </View>
 
@@ -53,6 +79,7 @@ export default function loginScreen() {
                 style={styles.input}
                 placeholder="Enter Your Password"
                 secureTextEntry={true}
+                onChangeText={text => setPassword(text)}
               />
             </View>
           </View>

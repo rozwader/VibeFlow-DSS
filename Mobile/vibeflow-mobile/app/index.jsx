@@ -22,7 +22,7 @@ export default function HomeScreen() {
 
   const checkToken = useCallback(async (token) => {
     try {
-      const request = await fetch("YOUR_API_ENDPOINT/api/auth/tokencheck", {
+      const request = await fetch("http://192.168.1.220:3000/api/auth/tokencheck", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
@@ -81,7 +81,6 @@ export default function HomeScreen() {
       router.push("/MusicScreen/");
     } else {
       router.push("/LoginScreen");
-      router.push("/MusicScreen/");
     }
   };
 
