@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ListOfSongsComponent from "../ListOfSongsComponent";
 
 const UserFilesWindowComponent = () => {
     
@@ -45,7 +46,7 @@ const UserFilesWindowComponent = () => {
         <div className="flex flex-col gap-2 p-8">
             <h1 className="text-3xl font-bold text-black mb-4">Your Uploads</h1>
             <div className="flex flex-row gap-2">
-                {files ? (files.map((obj, index) => {
+                {/* {files ? (files.map((obj, index) => {
                     return metadata[0].map((data) => {
                         if(data.fileName == obj && data.creator == localStorage.getItem("User")){
                             return <div key={index} className="flex flex-col gap-1 border p-2 w-fit rounded-xl">
@@ -59,7 +60,8 @@ const UserFilesWindowComponent = () => {
                             </div>
                         }
                     })
-                })) : (null)}
+                })) : (null)} */}
+                <ListOfSongsComponent files={files} metadata={metadata}/>
             </div>
         </div>
     );

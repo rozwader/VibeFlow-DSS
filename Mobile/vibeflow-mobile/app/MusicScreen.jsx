@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   TextInput,
   SafeAreaView,
   Platform,
+  Linking,
 } from "react-native";
 import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -22,6 +23,12 @@ const SECTION_VERTICAL_MARGIN = 28;
 const SECTION_HORIZONTAL_PADDING = 14;
 
 const placeholderUser = { display_name: "Użytkownik Testowy" };
+
+// const [isConnected, setIsConnected] = useState(false); 
+
+const getTopArtists = async () => {
+
+}
 
 const placeholderArtists = [
   {
@@ -735,11 +742,84 @@ const VibeFlowPlaylistItem = ({ playlist }) => (
   </View>
 );
 
+
+
+const ConnectToSpotifyComponent = () => {
+  
+  const [linkToS, setLinkToS] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
+
+  const LinkToSpotify = async () => {
+    try {
+      const request = await fetch("http://192.168.1.220:3000/api/s_auth/login", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      const data = await request.json();
+      console.log(data.message);
+  
+      setLinkToS(data.message);
+    } catch (err) {
+      console.log(`Couldn't Log In To Spotify | ${err}`);
+    }
+  }
+
+  const handleClick = async () => {
+    console.log(1)
+    //const canOpenUrl = Linking.canOpenURL(linkToS);
+    console.log("asd - ", linkToS)
+    Linking.openURL(linkToS);
+  }
+
+  const retrieveSToken = async () => {
+    try {
+      const request = await fetch("http://192.168.1.220:3000/api/s_auth/callback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (request.ok) {
+        const data = await request.json();
+
+        const currentTime = new Date().getTime() + 60 * 60 * 1000;
+
+        await AsyncStorage.setItem("S_TOKEN", data.message.token);
+        await AsyncStorage.setItem("S_TOKEN_EXPIRES_IN", currentTime);
+        await AsyncStorage.setItem("S_REFRESH", data.message.refreshToken);
+
+        setIsConnected(true);
+
+        return true;
+      } else {
+        const data = await request.json();
+        console.log(data.message);
+        return false;
+      }
+    } catch (err) {
+      console.log(`Couldn't retrieve Spotify Token | ${err}`);
+    }
+  };
+
+  useEffect(() => {
+    LinkToSpotify()
+  }, [])
+
+  return(
+    <View>
+      {isConnected ? (<TouchableOpacity style={styles.button} onPress={handleClick}>
+        <Text style={styles.buttonText}> Connect To Spotify</Text>
+      </TouchableOpacity>) : (null)}
+    </View>
+  )
+}
+
 const HomeView = ({ onArtistPress, onPlaylistPress }) => (
   <ScrollView
     contentContainerStyle={styles.scrollContentContainer}
     showsVerticalScrollIndicator={false}
   >
+    <ConnectToSpotifyComponent />
     <TopArtistsComponent
       topArtists={placeholderArtists}
       onArtistPress={onArtistPress}

@@ -19,7 +19,7 @@ export const GET = async (req) => { // endpoint GET ktory jest wolany przez spot
                 'Authorization': 'Basic ' + (Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64')),
                 'Content-Type' : 'application/x-www-form-urlencoded'
             },
-            body: `grant_type=authorization_code&redirect_uri=http://localhost:3000/api/s_auth/callback&code=${code}`
+            body: `grant_type=authorization_code&redirect_uri=http://192.168.1.220:3000/api/s_auth/callback&code=${code}`
             
         });
 
