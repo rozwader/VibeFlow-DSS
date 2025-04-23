@@ -39,7 +39,7 @@ export const GET = () => { // endpoint GET tworzący link dzieki ktoremu mozna s
         response_type: "code",
         client_id: process.env.SPOTIFY_CLIENT_ID,
         scope: scope,
-        redirect_uri: "http://localhost:3000/api/s_auth/callback",
+        redirect_uri: "http://192.168.1.220:3000/api/s_auth/callback",
         state: state,
     })
 

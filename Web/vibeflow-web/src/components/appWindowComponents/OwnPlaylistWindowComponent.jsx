@@ -108,7 +108,7 @@ const OwnPlaylistWindowComponent = () => {
 
     return(
         <div className="p-8 flex flex-col gap-2">
-            <h1 className="text-3xl font-bold text-black mb-4">Community Playlists</h1>
+            <h1 className="text-3xl font-bold text-black mb-4">Your Playlists</h1>
             <CreatePlaylistComponent refresh={getPlaylists}/>
             <div className="flex flex-row gap-2">
                 {playlists != null ? (playlists.map((playlist) => {
