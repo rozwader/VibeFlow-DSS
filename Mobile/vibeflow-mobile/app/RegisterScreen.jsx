@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -12,10 +12,41 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import vibeflowlogo from "../assets/images/vibeflowlogo.png";
+import { router } from "expo-router";
 
 export default function registerScreen() {
-  const handleSubmit = () => {
-    console.log("Submit");
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = async () => {
+    try{
+      const registerRequest = await fetch("http://192.168.1.220:3000/api/auth/register/", { // fetch wysylajacy zapytanie o zarejestrowanie uzytkownika
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, email }),
+      });
+    
+      if (registerRequest.ok) {
+        const emailRequest = await fetch("http://192.168.1.220:3000/api/send-email", { // fetch wysylajacy email
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, username }),
+        });
+    
+        if (emailRequest.ok) {
+          router.push("/LoginScreen/");
+        } else {
+          console.error("Failed to send welcome email");
+        }
+      } else {
+        const message = await registerRequest.json();
+        console.log(message);
+      }
+    }catch(err){
+      console.log(`Couldn't register user | ${err}`);
+    }
   };
 
   return (
@@ -41,6 +72,7 @@ export default function registerScreen() {
                 placeholder="Enter Your E-Mail"
                 keyboardType="email-address"
                 autoCapitalize="none"
+                onChangeText={text => setEmail(text)}
               />
             </View>
           </View>
@@ -54,7 +86,7 @@ export default function registerScreen() {
                 color="gray"
                 style={styles.icon}
               />
-              <TextInput style={styles.input} placeholder="Enter Your Name" />
+              <TextInput style={styles.input} placeholder="Enter Your Name" onChangeText={text => setUsername(text)}/>
             </View>
           </View>
 
@@ -71,6 +103,7 @@ export default function registerScreen() {
                 style={styles.input}
                 placeholder="Enter Your Password"
                 secureTextEntry={true}
+                onChangeText={text => setPassword(text)}
               />
             </View>
           </View>

@@ -12,6 +12,8 @@ import {
   Platform,
 } from "react-native";
 import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 
 const GRID_GAP = 16;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -1138,7 +1140,10 @@ const SettingsView = () => (
         <Ionicons name="lock-closed-outline" size={24} color="#555" />
         <Text style={styles.settingsText}>Prywatność</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.logoutButton]}>
+      <TouchableOpacity style={[styles.button, styles.logoutButton]} onPress={ async () => {
+        await AsyncStorage.clear();
+        router.push('/');
+      }}>
         <Ionicons name="log-out-outline" size={20} color="#fff" />
         <Text style={styles.buttonText}> Wyloguj</Text>
       </TouchableOpacity>
